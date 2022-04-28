@@ -1,4 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NMedia</string>
     <string name="greeting">Hello! This is NMedia!</string>
+    <string name="avatar_description">Avatar</string>
+    <string name="posts_menu_description">Post\'s menu</string>
+    <string name="like_button_description">Like</string>
+    <string name="comment_button_description">Comments</string>
+    <string name="share_button_description">Share</string>
+    <string name="views_image_description">Views</string>
 </resources>
