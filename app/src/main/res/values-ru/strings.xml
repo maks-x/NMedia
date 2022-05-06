@@ -8,4 +8,5 @@
     <string name="comment_button_description">Комментарии</string>
     <string name="share_button_description">Поделиться</string>
     <string name="views_image_description">Просмотры</string>
+    <string name="post_button">что-то новое (не) здесь =)</string>
 </resources>
