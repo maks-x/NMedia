@@ -49,5 +49,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     testImplementation "androidx.arch.core:core-testing:$arch_version"
-
+    implementation "androidx.activity:activity-ktx:1.4.0"
 }
