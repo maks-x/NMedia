@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="@dimen/common_spacing">
 
     <ImageView
@@ -81,7 +81,7 @@
         app:constraint_referenced_ids="content" />
 
     <ImageButton
-        android:id="@+id/likes_image"
+        android:id="@+id/likesButton"
         android:layout_width="@dimen/posts_button_size"
         android:layout_height="@dimen/posts_button_size"
         android:layout_marginTop="@dimen/common_spacing"
@@ -97,9 +97,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/tiny_spacing"
-        app:layout_constraintBottom_toBottomOf="@id/likes_image"
-        app:layout_constraintStart_toEndOf="@id/likes_image"
-        app:layout_constraintTop_toTopOf="@id/likes_image"
+        app:layout_constraintBottom_toBottomOf="@id/likesButton"
+        app:layout_constraintStart_toEndOf="@id/likesButton"
+        app:layout_constraintTop_toTopOf="@id/likesButton"
         tools:text="10" />
 
     <ImageButton
@@ -125,7 +125,7 @@
         tools:text="10" />
 
     <ImageButton
-        android:id="@+id/share_image"
+        android:id="@+id/shareButton"
         android:layout_width="@dimen/posts_button_size"
         android:layout_height="@dimen/posts_button_size"
         android:layout_marginStart="@dimen/common_spacing"
@@ -141,13 +141,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/tiny_spacing"
-        app:layout_constraintBottom_toBottomOf="@id/share_image"
-        app:layout_constraintStart_toEndOf="@id/share_image"
-        app:layout_constraintTop_toTopOf="@id/share_image"
+        app:layout_constraintBottom_toBottomOf="@id/shareButton"
+        app:layout_constraintStart_toEndOf="@id/shareButton"
+        app:layout_constraintTop_toTopOf="@id/shareButton"
         tools:text="10" />
 
     <ImageView
-        android:id="@+id/views_image"
+        android:id="@+id/viewsIcon"
         android:layout_width="@dimen/posts_button_size"
         android:layout_height="@dimen/posts_button_size"
         android:layout_marginTop="@dimen/common_spacing"
@@ -162,9 +162,9 @@
         android:id="@+id/views_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/views_image"
+        app:layout_constraintBottom_toBottomOf="@id/viewsIcon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/views_image"
+        app:layout_constraintTop_toTopOf="@id/viewsIcon"
         tools:text="100500" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

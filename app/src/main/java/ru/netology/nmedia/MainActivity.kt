@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         val postButton = findViewById<Button>(R.id.post_button)
         postButton.setOnClickListener {
-            startActivity(Intent(this, PostActivity::class.java))
+            startActivity(Intent(this, PostsFeedActivity::class.java))
         }
 
     }
