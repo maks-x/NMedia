@@ -1,39 +1,31 @@
 package ru.netology.nmedia
 
 import android.os.Bundle
-import android.widget.ImageButton
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ru.netology.nmedia.databinding.PostLayoutBinding
 
 
 class PostActivity : AppCompatActivity(R.layout.post_layout) {
+
+    private val viewModel: PostViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val binding = PostLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val post = Post(
-            avatarID = R.drawable.ic_soccer_48,
-            author = "Про футбол",
-            published = "30.04.2022",
-            content = "«Барса», вероятно, покинет «Камп Ноу» в сезоне 2023/24.",
-            likesCount = 1099,
-            commentsCount = 4,
-            shareCount = 0,
-            viewsCount = 1999999999,
-            likedByMe = false
-        )
-        binding.fill(post)
-
-        val likeButton = findViewById<ImageButton>(R.id.likes_image)
-        likeButton.setOnClickListener {
-            binding.updateLikes(post)
+        viewModel.data.observe(this) { post ->
+            binding.fill(post)
         }
 
-        val shareButton = findViewById<ImageButton>(R.id.share_image)
-        shareButton.setOnClickListener {
-            binding.updateShare(post)
+        binding.likesImage.setOnClickListener {
+            viewModel.like()
+        }
+
+        binding.shareImage.setOnClickListener {
+            viewModel.share()
         }
     }
 
@@ -55,19 +47,6 @@ class PostActivity : AppCompatActivity(R.layout.post_layout) {
             false -> R.drawable.ic_favorite_24
         }
         likesImage.setImageResource(imgResID)
-    }
-
-    private fun PostLayoutBinding.updateLikes(post: Post) {
-        post.likedByMe = !post.likedByMe
-        val correction =  if (post.likedByMe) 1 else -1
-        post.likesCount += correction
-        setLikesImg(post.likedByMe)
-        likesCount.text = formatCountOf(post.likesCount)
-    }
-
-    private fun PostLayoutBinding.updateShare(post: Post) {
-        post.shareCount++
-        shareCount.text = formatCountOf(post.shareCount)
     }
 
     private fun formatCountOf(property: Int): String {
