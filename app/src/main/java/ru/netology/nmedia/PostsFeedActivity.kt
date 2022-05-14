@@ -14,7 +14,6 @@ class PostsFeedActivity : AppCompatActivity(R.layout.posts_feed) {
         setContentView(postsFeedBinding.root)
 
         val postsFeedAdapter = PostsFeedAdapter(
-            context = this.applicationContext,
             likeByID = viewModel::likeByID,
             shareByID = viewModel::shareByID
         )

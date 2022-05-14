@@ -11,23 +11,21 @@ import ru.netology.nmedia.databinding.PostBinding
 typealias clickOnPost = (Long) -> Unit
 
 internal class PostsFeedAdapter(
-    private val context: Context,
     private val likeByID: clickOnPost,
     private val shareByID: clickOnPost,
 ) : ListAdapter<Post, PostsFeedAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(context)
-        val binding = PostBinding.inflate(
+        val inflater = LayoutInflater.from(parent.context)
+        val postBinding = PostBinding.inflate(
             inflater, parent, false
         )
-        return ViewHolder(binding)
+        return ViewHolder(postBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 
 
     inner class ViewHolder(
@@ -46,13 +44,17 @@ internal class PostsFeedAdapter(
             with(postBinding) {
                 avatar.setImageResource(post.avatarID)
                 selectLikesButtonImg(post.likedByMe)
-                likesCount.text = formatCountOf(post.likesCount)
-                commentsCount.text = formatCountOf(post.commentsCount)
-                shareCount.text = formatCountOf(post.shareCount)
-                viewsCount.text = formatCountOf(post.viewsCount)
                 author.text = post.author
                 content.text = post.content
                 published.text = post.published
+
+                root.context
+                    .run {
+                        likesCount.text = formatCountOf(post.likesCount)
+                        commentsCount.text = formatCountOf(post.commentsCount)
+                        shareCount.text = formatCountOf(post.shareCount)
+                        viewsCount.text = formatCountOf(post.viewsCount)
+                    }
             }
         }
 
@@ -64,7 +66,7 @@ internal class PostsFeedAdapter(
             likesButton.setImageResource(imgResID)
         }
 
-        private fun formatCountOf(property: Int): String {
+        private fun Context.formatCountOf(property: Int): String {
 
             fun Int.roundTo(divisor: Int): Any = when (this % divisor >= divisor / 10) {
                 true ->
@@ -79,15 +81,15 @@ internal class PostsFeedAdapter(
             return when (property) {
                 0 -> ""
                 in 0..999 -> {
-                    pattern = context.resources.getString(R.string.default_pattern)
+                    pattern = resources.getString(R.string.default_pattern)
                     pattern.format(property)
                 }
                 in 1_000..999_999 -> {
-                    pattern = context.resources.getString(R.string.thousands_pattern)
+                    pattern = resources.getString(R.string.thousands_pattern)
                     pattern.format(property.roundTo(1_000))
                 }
                 in 1_000_000..Int.MAX_VALUE -> {
-                    pattern = context.resources.getString(R.string.millions_pattern)
+                    pattern = resources.getString(R.string.millions_pattern)
                     pattern.format(property.roundTo(1_000_000))
                 }
                 else -> "err" //here could be custom exception
