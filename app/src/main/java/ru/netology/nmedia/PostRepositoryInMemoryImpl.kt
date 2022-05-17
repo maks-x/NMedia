@@ -12,25 +12,31 @@ class PostRepositoryInMemoryImpl : PostRepository {
                 "(2 передачи до первого результата)",
         "Совершив 52 сейва, Тибо Куртуа ушёл в отрыв по результативности среди вратарей"
     )
+    private val emoji = String(Character.toChars(0x1F60A))
+    private val newsHeaderPattern = "Новость №%s\n(не по актуальности, но по порядку $emoji)\n"
+    private fun <T> List<T>.repeatIfOutOfBound(requiredIndex: Int) =
+        this[requiredIndex % size]
+
+    companion object{
+        private const val START_COUNT = 100
+    }
+
+    private var newPostID = 1L
 
     override val data = MutableLiveData(
-        List(news.size) { index ->
-            val postID = index + 1L
-            val emoji = String(Character.toChars(0x1F60A))
+
+        List(START_COUNT) { index ->
+            val postID = newPostID
+            newPostID++
             Post(
                 id = postID,
                 avatarID = R.mipmap.ic_champ_league_logo,
                 author = "UEFA Champ. League",
                 published = "07.05.2022",
-                content = "Новость №$postID\n(не по актуальности, но по порядку $emoji)\n"
-                        + news[index],
-                likesCount = 0,
-                commentsCount = 0,
-                shareCount = 0,
-                viewsCount = 0,
-                likedByMe = false
+                content = newsHeaderPattern.format(postID)
+                        + news.repeatIfOutOfBound(index)
             )
-        }
+        }.reversed()
     )
 
     private val posts
@@ -60,4 +66,31 @@ class PostRepositoryInMemoryImpl : PostRepository {
             )
         }
     }
+
+    override fun remove(postID: Long) {
+        data.value = posts.filterNot { it.id == postID }
+    }
+
+    override fun save(post: Post) =
+        when (post.id) {
+            PostRepository.NEW_POST_ID_CHECKER -> addNewPost(post)
+            else -> updatePost(post)
+        }
+
+    private fun addNewPost(post: Post) {
+        data.value = listOf(
+            post.copy(
+                id = newPostID,
+                content = "Новость №$newPostID\n" + post.content
+            )
+        ) + posts
+        newPostID++
+    }
+
+    private fun updatePost(post: Post) {
+        data.value = posts.map {
+            if (it.id == post.id) post else it
+        }
+    }
+
 }

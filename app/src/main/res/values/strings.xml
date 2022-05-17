@@ -12,4 +12,10 @@
     <string name="default_pattern" translatable="false">%s</string>
     <string name="thousands_pattern" translatable="false">%sK</string>
     <string name="millions_pattern" translatable="false">%sM</string>
+    <string name="remove_post_option">Remove</string>
+    <string name="post_hint">Enter the text…</string>
+    <string name="publish_post">Publish the post</string>
+    <string name="edit_post_options">Edit</string>
+    <string name="cancel_editing">Cancel editing</string>
+    <string name="editing_mode_text">Editing:</string>
 </resources>
