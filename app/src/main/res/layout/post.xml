@@ -28,7 +28,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@id/published"
-        app:layout_constraintEnd_toStartOf="@id/posts_menu"
+        app:layout_constraintEnd_toStartOf="@id/posts_options"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Some name of public or user as long, as it necessary" />
@@ -47,9 +47,9 @@
         tools:text="April 27, 23:23" />
 
     <ImageButton
-        android:id="@+id/posts_menu"
-        android:layout_width="@dimen/posts_button_size"
-        android:layout_height="@dimen/posts_button_size"
+        android:id="@+id/posts_options"
+        android:layout_width="16dp"
+        android:layout_height="18dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/posts_menu_description"
         android:src="@drawable/ic_menu_24dp"
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="avatar,published,posts_menu" />
+        app:constraint_referenced_ids="avatar,published,posts_options" />
 
     <TextView
         android:id="@+id/content"
