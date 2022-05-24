@@ -16,30 +16,21 @@ class PostsFeedActivity : AppCompatActivity(R.layout.posts_feed) {
         setContentView(postsFeedBinding.root)
 
         val postsFeedAdapter = PostsFeedAdapter(viewModel)
-        postsFeedBinding.recyclerView.adapter = postsFeedAdapter
-        viewModel.data.observe(this) { posts ->
-            postsFeedAdapter.submitList(posts)
+
+        with(postsFeedBinding.recyclerView) {
+            adapter = postsFeedAdapter
+            viewModel.data.observe(this@PostsFeedActivity) { posts ->
+                postsFeedAdapter.submitList(posts) {
+                    viewModel.scrollOnTop?.runIfNotHandled { this.scrollToPosition(top) }
+                }
+            }
         }
 
         postsFeedBinding.savePostButton.setOnClickListener {
             with(postsFeedBinding) {
                 val content = inputText.text.toString()
                 viewModel.onSaveButtonClick(content)
-
-                inputText.clearFocus()
-                inputText.hideKeyboard()
-                editingGroup.visibility = View.GONE
-
-                if (content.isNotBlank())
-                    with(postsFeedBinding.recyclerView) {
-                        /*
-                        Может вы подскажете, как бы это оптимальнее написать?
-                        Как-то чопорно получилось...
-                        Скролл с задержкой - без анимации, а без задержки не всегда срабатывает
-                        Smooth скролл слишком долго мотает)
-                        */
-                        postDelayed({ scrollToPosition(top) }, 200)
-                    }
+                clearInputArea()
             }
         }
 
@@ -52,12 +43,7 @@ class PostsFeedActivity : AppCompatActivity(R.layout.posts_feed) {
 
         postsFeedBinding.cancelEditMode.setOnClickListener {
             viewModel.onCancelEditingClick()
-            with (postsFeedBinding){
-                inputText.clearFocus()
-                inputText.hideKeyboard()
-                editingGroup.visibility = View.GONE
-            }
-
+            postsFeedBinding.clearInputArea()
         }
     }
 }

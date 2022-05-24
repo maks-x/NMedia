@@ -9,18 +9,28 @@ class PostViewModel : ViewModel(), PostInteractionListener {
 
     val currentPost = MutableLiveData<Post?>(null)
 
+    var scrollOnTop: SingleEvent? = null
+        private set
+
     fun onSaveButtonClick(content: String) {
         if (content.isBlank()) return
 
-        val newOrEditedPost = currentPost.value?.copy(
-            content = content
-        ) ?: Post(
-            id = PostRepository.NEW_POST_ID_CHECKER,
-            author = "Who cares?",
-            published = "Whenever",
-            content = content
-        )
+        val newOrEditedPost =
+            currentPost.value?.copy(
+                content = content
+            ) ?: Post(
+                id = PostRepository.NEW_POST_ID_CHECKER,
+                author = "Who cares?",
+                published = "Whenever",
+                content = content
+            ).also {
+                scrollOnTop = SingleEvent()
+            }
         repository.save(newOrEditedPost)
+        currentPost.value = null
+    }
+
+    fun onCancelEditingClick() {
         currentPost.value = null
     }
 
@@ -31,9 +41,6 @@ class PostViewModel : ViewModel(), PostInteractionListener {
     override fun onRemoveClick(postID: Long) = repository.remove(postID)
     override fun onEditClick(post: Post) {
         currentPost.value = post
-    }
-    override fun onCancelEditingClick() {
-        currentPost.value = null
     }
 
     // endregion PostInteractionListener
