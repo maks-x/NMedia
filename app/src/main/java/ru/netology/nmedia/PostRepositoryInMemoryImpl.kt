@@ -3,44 +3,15 @@ package ru.netology.nmedia
 import androidx.lifecycle.MutableLiveData
 
 class PostRepositoryInMemoryImpl : PostRepository {
-    private val news = listOf(
-        "28 мая: Ливерпуль и Реал Мадрид!\n    #MUSTSEE",
-        "Обладателем лучшего показателя точности паса (98%) является " +
-                "Александр Ерохин (Зенит)",
-        "Лучший бомбардиром остаётся Карим Бензема (15 голов в 11 матчах)",
-        "У Винисиуса Жуниора есть шанс стать лучшим ассистентом нынешнего розыгрыша " +
-                "(2 передачи до первого результата)",
-        "Совершив 52 сейва, Тибо Куртуа ушёл в отрыв по результативности среди вратарей"
-    )
-    private val emoji = String(Character.toChars(0x1F60A))
-    private val newsHeaderPattern = "Новость №%s\n(не по актуальности, но по порядку $emoji)\n"
 
-    companion object {
-        private const val START_COUNT = 100
-    }
-
-    private var newPostID = 1L
-
-    override val data = MutableLiveData(
-
-        List(START_COUNT) { index ->
-            val postID = newPostID
-            newPostID++
-            Post(
-                id = postID,
-                avatarID = R.mipmap.ic_champ_league_logo,
-                author = "UEFA Champ. League",
-                published = "07.05.2022",
-                content = newsHeaderPattern.format(postID)
-                        + news.repeatIfOutOfBound(index)
-            )
-        }.reversed()
-    )
+    override val data = MutableLiveData<List<Post>>().fillWithSample()
 
     private val posts
         get() = checkNotNull(data.value) {
             "Data value should not be null"
         }
+
+    private var newPostID = posts.size + 1L
 
     override fun like(postID: Long) {
         data.value = posts.map { post ->
