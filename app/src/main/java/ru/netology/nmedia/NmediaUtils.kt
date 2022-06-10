@@ -90,7 +90,11 @@ internal fun MutableLiveData<List<Post>>.fillWithSample() = apply {
             author = "UEFA Champ. League",
             published = "07.05.2022",
             content = newsHeaderPattern.format(postID)
-                    + news.repeatIfOutOfBound(index)
+                    + news.repeatIfOutOfBound(index),
+            likesCount = 2000000000,
+            commentsCount = 2000000000,
+            viewsCount = 2000000000,
+            shareCount = 2000000000
         )
     }.reversed()
 }

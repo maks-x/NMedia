@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.AppTheme.PostButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="cornerRadius">50dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="iconPadding">0dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="iconTint">@color/like_button_tint</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:minWidth">40dp</item>
+        <item name="android:minHeight">32dp</item>
+    </style>
+
+    <style name="Widget.AppTheme.PostButtonStyle.Options" parent="Widget.AppTheme.PostButtonStyle">
+        <item name="android:padding">4dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+
+    </style>
+
+    <style name="Widget.AppTheme.PostButtonStyle.Views" parent="Widget.AppTheme.PostButtonStyle">
+        <item name="android:padding">4dp</item>
+        <!--        minWidth = 0dp необходим для максимального смещения иконки при нулевом значении-->
+        <item name="android:minWidth">0dp</item>
+    </style>
+</resources>

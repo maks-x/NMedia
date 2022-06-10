@@ -53,8 +53,8 @@ internal class PostsFeedAdapter(
 
         init {
             with(postBinding) {
-                likesButton.setOnClickListener { listener.onLikeClick(post.id) }
-                shareButton.setOnClickListener { listener.onShareClick(post.id) }
+                likes.setOnClickListener { listener.onLikeClick(post.id) }
+                share.setOnClickListener { listener.onShareClick(post.id) }
                 postsOptions.setOnClickListener { popupMenu.show() }
             }
         }
@@ -63,27 +63,19 @@ internal class PostsFeedAdapter(
             this.post = post
             with(postBinding) {
                 avatar.setImageResource(post.avatarID)
-                selectLikesButtonImg(post.likedByMe)
                 author.text = post.author
                 content.text = post.content
                 published.text = post.published
+                likes.isChecked = post.likedByMe
 
                 itemView.context
                     .run {
-                        likesCount.text = formatCountOf(post.likesCount)
-                        commentsCount.text = formatCountOf(post.commentsCount)
-                        shareCount.text = formatCountOf(post.shareCount)
-                        viewsCount.text = formatCountOf(post.viewsCount)
+                        likes.text = formatCountOf(post.likesCount)
+                        comments.text = formatCountOf(post.commentsCount)
+                        share.text = formatCountOf(post.shareCount)
+                        views.text = formatCountOf(post.viewsCount)
                     }
             }
-        }
-
-        private fun PostBinding.selectLikesButtonImg(likedByMe: Boolean) {
-            val imgResID = when (likedByMe) {
-                true -> R.drawable.ic_favorite_clicked_24
-                false -> R.drawable.ic_favorite_24
-            }
-            likesButton.setImageResource(imgResID)
         }
     }
 
