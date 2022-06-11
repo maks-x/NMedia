@@ -47,7 +47,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/posts_options"
-        style="@style/Widget.AppTheme.PostButtonStyle.Options"
+        style="@style/Widget.AppTheme.PostButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/posts_menu_description"
@@ -81,10 +81,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/likes"
-        style="@style/Widget.AppTheme.PostButtonStyle"
+        style="@style/Widget.AppTheme.PostButtonStyle.Likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checkable="true"
         android:contentDescription="@string/like_button_description"
         app:icon="@drawable/ic_like_24dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,11 +117,10 @@
         style="@style/Widget.AppTheme.PostButtonStyle.Views"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
         android:contentDescription="@string/views_image_description"
         app:icon="@drawable/ic_views_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bottom_barrier"
+        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
         tools:text="1005M" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
