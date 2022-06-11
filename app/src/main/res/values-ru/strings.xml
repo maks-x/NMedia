@@ -15,4 +15,5 @@
     <string name="edit_post_options">Редактироать</string>
     <string name="cancel_editing">Отменить редактирование</string>
     <string name="editing_mode_text">Редактирование:</string>
+    <string name="chooser_share_post">Поделиться</string>
 </resources>

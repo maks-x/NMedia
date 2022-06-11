@@ -54,7 +54,7 @@ internal class PostsFeedAdapter(
         init {
             with(postBinding) {
                 likes.setOnClickListener { listener.onLikeClick(post.id) }
-                share.setOnClickListener { listener.onShareClick(post.id) }
+                share.setOnClickListener { listener.onShareClick(post) }
                 postsOptions.setOnClickListener { popupMenu.show() }
             }
         }

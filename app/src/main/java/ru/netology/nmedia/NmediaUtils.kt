@@ -50,13 +50,23 @@ internal fun Context.formatCountOf(property: Int): String {
     }
 }
 
-class SingleEvent {
+class SingleEvent<T> (private val content:T? = null) {
+
     private var hasBeenHandled = false
 
     fun runIfNotHandled(action: () -> Unit) {
         if (!hasBeenHandled) {
             hasBeenHandled = true
             action()
+        }
+    }
+
+    fun getContentIfNotHandled(): T? {
+        return if (hasBeenHandled) {
+            null
+        } else {
+            hasBeenHandled = true
+            content
         }
     }
 }

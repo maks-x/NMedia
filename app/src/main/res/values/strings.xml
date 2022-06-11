@@ -18,4 +18,5 @@
     <string name="edit_post_options">Edit</string>
     <string name="cancel_editing">Cancel editing</string>
     <string name="editing_mode_text">Editing:</string>
+    <string name="chooser_share_post">Share post</string>
 </resources>

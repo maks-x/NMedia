@@ -9,8 +9,10 @@ class PostViewModel : ViewModel(), PostInteractionListener {
 
     val currentPost = MutableLiveData<Post?>(null)
 
-    var scrollOnTop: SingleEvent? = null
+    var scrollOnTop: SingleEvent<Any>? = null
         private set
+
+    val sharePostContent = MutableLiveData<SingleEvent<String>>()
 
     fun onSaveButtonClick(content: String) {
         if (content.isBlank()) return
@@ -37,7 +39,10 @@ class PostViewModel : ViewModel(), PostInteractionListener {
     // region PostInteractionListener
 
     override fun onLikeClick(postID: Long) = repository.like(postID)
-    override fun onShareClick(postID: Long) = repository.share(postID)
+    override fun onShareClick(post: Post) {
+        sharePostContent.value = SingleEvent(post.content)
+        repository.share(post)
+    }
     override fun onRemoveClick(postID: Long) = repository.remove(postID)
     override fun onEditClick(post: Post) {
         currentPost.value = post

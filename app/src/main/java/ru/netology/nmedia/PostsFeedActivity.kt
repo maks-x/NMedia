@@ -1,5 +1,6 @@
 package ru.netology.nmedia
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -44,6 +45,20 @@ class PostsFeedActivity : AppCompatActivity(R.layout.posts_feed) {
         postsFeedBinding.cancelEditButton.setOnClickListener {
             viewModel.onCancelEditingClick()
             postsFeedBinding.clearInputArea()
+        }
+
+        viewModel.sharePostContent.observe(this) {
+            it.getContentIfNotHandled()?.let { postContent ->
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, postContent)
+                    type = "text/plain"
+                }
+                val shareIntent = Intent.createChooser(
+                    intent, getString(R.string.chooser_share_post)
+                )
+                startActivity(shareIntent)
+            }
         }
     }
 }
