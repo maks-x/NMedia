@@ -1,4 +1,6 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.viewModel
+
+import ru.netology.nmedia.objects.Post
 
 interface PostInteractionListener {
     fun onLikeClick(postID: Long)

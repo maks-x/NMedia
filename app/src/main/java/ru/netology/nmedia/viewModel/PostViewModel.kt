@@ -1,7 +1,11 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ru.netology.nmedia.objects.Post
+import ru.netology.nmedia.repository.PostRepository
+import ru.netology.nmedia.repository.PostRepositoryInMemoryImpl
+import ru.netology.nmedia.utils.SingleEventWrapper
 
 class PostViewModel : ViewModel(), PostInteractionListener {
     private val repository: PostRepository = PostRepositoryInMemoryImpl()
@@ -9,10 +13,10 @@ class PostViewModel : ViewModel(), PostInteractionListener {
 
     val currentPost = MutableLiveData<Post?>(null)
 
-    var scrollOnTop: SingleEvent<Any>? = null
+    var scrollOnTop: SingleEventWrapper<Any>? = null
         private set
 
-    val sharePostContent = MutableLiveData<SingleEvent<String>>()
+    val sharePostContent = MutableLiveData<SingleEventWrapper<String>>()
 
     fun onSaveButtonClick(content: String) {
         if (content.isBlank()) return
@@ -26,7 +30,7 @@ class PostViewModel : ViewModel(), PostInteractionListener {
                 published = "Whenever",
                 content = content
             ).also {
-                scrollOnTop = SingleEvent()
+                scrollOnTop = SingleEventWrapper()
             }
         repository.save(newOrEditedPost)
         currentPost.value = null
@@ -40,9 +44,10 @@ class PostViewModel : ViewModel(), PostInteractionListener {
 
     override fun onLikeClick(postID: Long) = repository.like(postID)
     override fun onShareClick(post: Post) {
-        sharePostContent.value = SingleEvent(post.content)
+        sharePostContent.value = SingleEventWrapper(post.content)
         repository.share(post)
     }
+
     override fun onRemoveClick(postID: Long) = repository.remove(postID)
     override fun onEditClick(post: Post) {
         currentPost.value = post

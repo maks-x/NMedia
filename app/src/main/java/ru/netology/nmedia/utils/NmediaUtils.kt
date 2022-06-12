@@ -1,10 +1,12 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.utils
 
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.MutableLiveData
+import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostsFeedBinding
+import ru.netology.nmedia.objects.Post
 
 internal fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -47,27 +49,6 @@ internal fun Context.formatCountOf(property: Int): String {
             pattern.format(property.roundTo(1_000_000))
         }
         else -> "err" //here could be custom exception
-    }
-}
-
-class SingleEvent<T> (private val content:T? = null) {
-
-    private var hasBeenHandled = false
-
-    fun runIfNotHandled(action: () -> Unit) {
-        if (!hasBeenHandled) {
-            hasBeenHandled = true
-            action()
-        }
-    }
-
-    fun getContentIfNotHandled(): T? {
-        return if (hasBeenHandled) {
-            null
-        } else {
-            hasBeenHandled = true
-            content
-        }
     }
 }
 

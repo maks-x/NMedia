@@ -1,11 +1,15 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import ru.netology.nmedia.R
+import ru.netology.nmedia.adapter.PostsFeedAdapter
 import ru.netology.nmedia.databinding.PostsFeedBinding
+import ru.netology.nmedia.utils.clearInputArea
+import ru.netology.nmedia.viewModel.PostViewModel
 
 class PostsFeedActivity : AppCompatActivity(R.layout.posts_feed) {
     private val viewModel: PostViewModel by viewModels()
