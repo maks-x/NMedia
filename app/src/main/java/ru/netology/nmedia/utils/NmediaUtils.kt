@@ -5,7 +5,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.R
-import ru.netology.nmedia.databinding.PostsFeedBinding
+import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.objects.Post
 
 internal fun View.hideKeyboard() {
@@ -13,7 +13,7 @@ internal fun View.hideKeyboard() {
     imm.hideSoftInputFromWindow(windowToken, /* flags = */0)
 }
 
-internal fun PostsFeedBinding.clearInputArea() {
+internal fun ActivityMainBinding.clearInputArea() {
     inputText.clearFocus()
     inputText.hideKeyboard()
     editingGroup.visibility = View.GONE

@@ -8,7 +8,6 @@
     <string name="comment_button_description">Comments</string>
     <string name="share_button_description">Share</string>
     <string name="views_image_description">Views</string>
-    <string name="post_button">something new (not) here =)</string>
     <string name="default_pattern" translatable="false">%s</string>
     <string name="thousands_pattern" translatable="false">%sK</string>
     <string name="millions_pattern" translatable="false">%sM</string>

@@ -8,7 +8,6 @@
     <string name="comment_button_description">Комментарии</string>
     <string name="share_button_description">Поделиться</string>
     <string name="views_image_description">Просмотры</string>
-    <string name="post_button">что-то новое (не) здесь =)</string>
     <string name="remove_post_option">Удалить</string>
     <string name="post_hint">Введите текст…</string>
     <string name="publish_post">Опубликовать пост</string>
