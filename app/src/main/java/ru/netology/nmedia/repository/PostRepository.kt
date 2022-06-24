@@ -10,9 +10,5 @@ interface PostRepository {
     fun remove(postID: Long)
     fun save(post: Post)
 
-    companion object {
-        const val NEW_POST_ID_CHECKER = 0L
-    }
-
 }
 

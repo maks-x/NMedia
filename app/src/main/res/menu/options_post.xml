@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/edit"
+        android:id="@+id/popupEdit"
         android:title="@string/edit_post_options" />
 
     <item
-        android:id="@+id/remove"
+        android:id="@+id/popupRemove"
         android:title="@string/remove_post_option" />
 
 </menu>

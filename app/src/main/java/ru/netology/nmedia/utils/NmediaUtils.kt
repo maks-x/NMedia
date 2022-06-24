@@ -1,11 +1,13 @@
 package ru.netology.nmedia.utils
 
+import android.app.Activity
 import android.content.Context
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.R
-import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
 
 internal fun View.hideKeyboard() {
@@ -13,10 +15,9 @@ internal fun View.hideKeyboard() {
     imm.hideSoftInputFromWindow(windowToken, /* flags = */0)
 }
 
-internal fun ActivityMainBinding.clearInputArea() {
-    inputText.clearFocus()
-    inputText.hideKeyboard()
-    editingGroup.visibility = View.GONE
+//иначе клавиатура не подтягивается после requestFocus(), есть ли другой способ?
+internal fun Activity.showKeyboard() {
+    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 }
 
 internal fun <T> List<T>.repeatIfOutOfBound(requiredIndex: Int) =
@@ -82,6 +83,7 @@ internal fun MutableLiveData<List<Post>>.fillWithSample() = apply {
             published = "07.05.2022",
             content = newsHeaderPattern.format(postID)
                     + news.repeatIfOutOfBound(index),
+            videoLink = "https://www.youtube.com/watch?v=WhWc3b3KhnY",
             likesCount = 2000000000,
             commentsCount = 2000000000,
             viewsCount = 2000000000,
@@ -89,3 +91,29 @@ internal fun MutableLiveData<List<Post>>.fillWithSample() = apply {
         )
     }.reversed()
 }
+
+internal fun PostBinding.fillWithPost(post: Post?) {
+    post?.let {
+        avatar.setImageResource(post.avatarID)
+        author.text = post.author
+        content.text = post.content
+        published.text = post.published
+        likes.isChecked = post.likedByMe
+        videoViewGroup.visibility =
+            if (post.videoLink.isNullOrBlank()) View.GONE
+            else View.VISIBLE
+
+
+        with(root.context) {
+            likes.text = formatCountOf(post.likesCount)
+            comments.text = formatCountOf(post.commentsCount)
+            share.text = formatCountOf(post.shareCount)
+            views.text = formatCountOf(post.viewsCount)
+        }
+    }
+}
+
+// region APP_CONSTANTS
+const val LINK_KEY = "postLink"
+
+// endregion APP_CONSTANTS

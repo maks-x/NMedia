@@ -44,7 +44,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
 
     override fun save(post: Post) =
         when (post.id) {
-            PostRepository.NEW_POST_ID_CHECKER -> addNewPost(post)
+            Post.DEFAULT_POST_ID -> addNewPost(post)
             else -> updatePost(post)
         }
 

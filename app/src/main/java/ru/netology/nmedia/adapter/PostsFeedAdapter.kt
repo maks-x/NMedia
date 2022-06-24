@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
-import ru.netology.nmedia.utils.formatCountOf
+import ru.netology.nmedia.utils.fillWithPost
 import ru.netology.nmedia.viewModel.PostInteractionListener
 
 internal class PostsFeedAdapter(
@@ -41,11 +41,11 @@ internal class PostsFeedAdapter(
                 inflate(R.menu.options_post)
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        R.id.remove -> {
+                        R.id.popupRemove -> {
                             listener.onRemoveClick(post.id)
                             true
                         }
-                        R.id.edit -> {
+                        R.id.popupEdit -> {
                             listener.onEditClick(post)
                             true
                         }
@@ -60,26 +60,16 @@ internal class PostsFeedAdapter(
                 likes.setOnClickListener { listener.onLikeClick(post.id) }
                 share.setOnClickListener { listener.onShareClick(post) }
                 postsOptions.setOnClickListener { popupMenu.show() }
+                videoPlay.setOnClickListener {
+                    post.videoLink?.let { listener.onVideoLinkClick(it) }
+                }
+                videoPreview.setOnClickListener{ videoPlay.performClick() }
             }
         }
 
         fun bind(post: Post) {
             this.post = post
-            with(postBinding) {
-                avatar.setImageResource(post.avatarID)
-                author.text = post.author
-                content.text = post.content
-                published.text = post.published
-                likes.isChecked = post.likedByMe
-
-                itemView.context
-                    .run {
-                        likes.text = formatCountOf(post.likesCount)
-                        comments.text = formatCountOf(post.commentsCount)
-                        share.text = formatCountOf(post.shareCount)
-                        views.text = formatCountOf(post.viewsCount)
-                    }
-            }
+            postBinding.fillWithPost(post)
         }
     }
 

@@ -15,4 +15,12 @@
     <string name="cancel_editing">Отменить редактирование</string>
     <string name="editing_mode_text">Редактирование:</string>
     <string name="chooser_share_post">Поделиться</string>
+    <string name="description_post_save">Сохранить</string>
+    <string name="post_add_hint">"Какие новости?\\n Может вас трудно найти…? =)     "</string>
+    <string name="add_post">Добавить пост</string>
+    <string name="snack_bar">ОГО! Snackbar!</string>
+    <string name="add_post_title">Добавить пост</string>
+    <string name="edit_post_title">Редактировать пост</string>
+    <string name="play_video">Играть видео</string>
+    <string name="edit_link_hint">Вы можете прикрепить ссылку на видео</string>
 </resources>

@@ -11,71 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/bottom_barrier"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/post" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/bottom_barrier"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:barrierDirection="top"
-        app:constraint_referenced_ids="inputText" />
-
-    <TextView
-        android:id="@+id/edit_mode_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/common_spacing"
-        android:text="@string/editing_mode_text"
-        app:layout_constraintBottom_toTopOf="@id/inputText"
-        app:layout_constraintEnd_toStartOf="@id/cancelEditButton"
-        app:layout_constraintStart_toStartOf="@id/inputText"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/cancelEditButton"
-        style="@style/Widget.AppTheme.PostButtonStyle.CancelEditing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/cancel_editing"
-        app:icon="@drawable/ic_cancel_48"
-        app:layout_constraintBottom_toBottomOf="@id/edit_mode_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/edit_mode_text"
-        app:layout_constraintTop_toTopOf="@id/edit_mode_text" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/editing_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="edit_mode_text, cancelEditButton" />
-
-    <EditText
-        android:id="@+id/inputText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:hint="@string/post_hint"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:padding="@dimen/common_spacing"
+        android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@string/add_post"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/savePostButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_mode_text" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/savePostButton"
-        style="@style/Widget.AppTheme.PostButtonStyle.AddPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/publish_post"
-        app:icon="@drawable/ic_post_add_48"
-        app:layout_constraintBottom_toBottomOf="@id/inputText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/inputText"
-        app:layout_constraintTop_toTopOf="@id/inputText" />
+        app:srcCompat="@drawable/ic_post_add_48" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,18 +66,59 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/bottom_barrier"
+        app:layout_constraintBottom_toTopOf="@id/videoBarrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_barrier"
         tools:text="Here is some text with meaning. It can contain more then one line." />
 
     <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/bottom_barrier"
+        android:id="@+id/videoBarrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
         app:barrierMargin="@dimen/common_spacing"
         app:constraint_referenced_ids="content" />
+
+    <ImageView
+        android:id="@+id/videoPreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="@string/play_video"
+        android:focusable="true"
+        android:padding="@dimen/common_spacing"
+        android:src="@mipmap/ic_champ_league_logo_background"
+        app:layout_constraintBottom_toBottomOf="@id/bottomBarrier"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/videoBarrier" />
+
+    <ImageButton
+        android:id="@+id/videoPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/play_video"
+        android:src="@drawable/ic_twotone_play_circle_filled_24"
+        app:layout_constraintBottom_toBottomOf="@id/videoPreview"
+        app:layout_constraintEnd_toEndOf="@id/videoPreview"
+        app:layout_constraintStart_toStartOf="@id/videoPreview"
+        app:layout_constraintTop_toTopOf="@id/videoPreview" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/videoViewGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="videoPreview, videoPlay">
+
+    </androidx.constraintlayout.widget.Group>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/bottomBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="videoPreview" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/likes"
@@ -87,7 +128,7 @@
         android:contentDescription="@string/like_button_description"
         app:icon="@drawable/ic_like_24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
+        app:layout_constraintTop_toBottomOf="@id/bottomBarrier"
         tools:text="1005M" />
 
     <com.google.android.material.button.MaterialButton
@@ -98,7 +139,7 @@
         android:contentDescription="@string/comment_button_description"
         app:icon="@drawable/ic_comments_24dp"
         app:layout_constraintStart_toEndOf="@id/likes"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
+        app:layout_constraintTop_toBottomOf="@id/bottomBarrier"
         tools:text="1005M" />
 
     <com.google.android.material.button.MaterialButton
@@ -109,7 +150,7 @@
         android:contentDescription="@string/share_button_description"
         app:icon="@drawable/ic_share_24dp"
         app:layout_constraintStart_toEndOf="@id/comments"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
+        app:layout_constraintTop_toBottomOf="@id/bottomBarrier"
         tools:text="1005M" />
 
     <com.google.android.material.button.MaterialButton
@@ -120,7 +161,7 @@
         android:contentDescription="@string/views_image_description"
         app:icon="@drawable/ic_views_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
+        app:layout_constraintTop_toBottomOf="@id/bottomBarrier"
         tools:text="1005M" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

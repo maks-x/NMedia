@@ -33,4 +33,8 @@
     <style name="Widget.AppTheme.PostButtonStyle.CancelEditing" parent="Widget.AppTheme.PostButtonStyle">
         <item name="iconTint">?attr/colorError</item>
     </style>
+
+    <style name="Widget.AppTheme.PlayVideoButtonStyle" parent="Widget.MaterialComponents.TimePicker.ImageButton">
+
+    </style>
 </resources>
