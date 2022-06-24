@@ -14,10 +14,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
     )
     private val emoji = String(Character.toChars(0x1F60A))
     private val newsHeaderPattern = "Новость №%s\n(не по актуальности, но по порядку $emoji)\n"
-    private fun <T> List<T>.repeatIfOutOfBound(requiredIndex: Int) =
-        this[requiredIndex % size]
 
-    companion object{
+    companion object {
         private const val START_COUNT = 100
     }
 

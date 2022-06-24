@@ -5,5 +5,4 @@ interface PostInteractionListener {
     fun onShareClick(postID: Long)
     fun onRemoveClick(postID: Long)
     fun onEditClick(post: Post)
-    fun onCancelEditingClick()
 }
