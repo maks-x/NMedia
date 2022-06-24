@@ -63,7 +63,7 @@ internal class PostsFeedAdapter(
                 videoPlay.setOnClickListener {
                     post.videoLink?.let { listener.onVideoLinkClick(it) }
                 }
-                videoPreview.setOnClickListener{ videoPlay.performClick() }
+                videoPreview.setOnClickListener { videoPlay.performClick() }
             }
         }
 

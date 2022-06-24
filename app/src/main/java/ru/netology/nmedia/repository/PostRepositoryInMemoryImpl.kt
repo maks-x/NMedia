@@ -52,7 +52,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
         data.value = listOf(
             post.copy(
                 id = newPostID,
-                content = "Новость №$newPostID\n" + post.content
+                text = "Новость №$newPostID\n" + post.text
             )
         ) + posts
         newPostID++

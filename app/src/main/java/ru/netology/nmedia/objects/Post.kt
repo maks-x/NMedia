@@ -7,7 +7,7 @@ data class Post(
     val author: String = "Who cares?",
     val published: String = "Whenever...",
     val avatarID: Int = R.drawable.ic_face_48dp,
-    val content: String = EMPTY_POST_CONTENT,
+    val text: String = EMPTY_POST_CONTENT,
     val videoLink: String? = null,
     val likedByMe: Boolean = false,
     val likesCount: Int = 0,

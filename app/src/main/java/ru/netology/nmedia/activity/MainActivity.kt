@@ -54,16 +54,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val postContentActivityLauncher =
             registerForActivityResult(PostContentActivityResultContract()) { postContent ->
                 postContent ?: return@registerForActivityResult
-                postContent.map { it ?: "" }
-                    .toTypedArray()
-                    .let {
-                        viewModel.savePost(it)
-                    }
+                viewModel.savePost(postContent)
             }
 
         viewModel.navigateToPostContentActivityEvent.observe(this) {
-            it.getContentIfNotHandled()?.let { postContent ->
-                postContentActivityLauncher.launch(postContent)
+            it.getContentIfNotHandled()?.let { bundle ->
+                postContentActivityLauncher.launch(bundle)
             }
         }
 

@@ -16,7 +16,6 @@
             android:id="@+id/edit"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@android:color/transparent"
             android:hint="@string/post_add_hint"
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
@@ -24,23 +23,23 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/lorem/random"/>
+            app:layout_constraintVertical_weight="2"
+            tools:text="@tools:sample/lorem/random" />
 
         <EditText
             android:id="@+id/editLink"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/bottom_app_bar_min_height"
-            android:background="@android:color/transparent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/bottom_app_bar_min_height"
             android:drawableTop="@drawable/ic_baseline_add_link_24"
             android:drawableTint="?attr/colorControlNormal"
             android:hint="@string/edit_link_hint"
             android:importantForAutofill="no"
-            android:inputType="textUri"
-            android:maxLines="1"
+            android:inputType="textMultiLine"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit"
+            app:layout_constraintVertical_weight="1"
             tools:text="@tools:sample/lorem/random" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

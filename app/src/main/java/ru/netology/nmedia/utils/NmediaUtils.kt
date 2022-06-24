@@ -2,6 +2,7 @@ package ru.netology.nmedia.utils
 
 import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -81,7 +82,7 @@ internal fun MutableLiveData<List<Post>>.fillWithSample() = apply {
             avatarID = R.mipmap.ic_champ_league_logo,
             author = "UEFA Champ. League",
             published = "07.05.2022",
-            content = newsHeaderPattern.format(postID)
+            text = newsHeaderPattern.format(postID)
                     + news.repeatIfOutOfBound(index),
             videoLink = "https://www.youtube.com/watch?v=WhWc3b3KhnY",
             likesCount = 2000000000,
@@ -96,7 +97,7 @@ internal fun PostBinding.fillWithPost(post: Post?) {
     post?.let {
         avatar.setImageResource(post.avatarID)
         author.text = post.author
-        content.text = post.content
+        content.text = post.text
         published.text = post.published
         likes.isChecked = post.likedByMe
         videoViewGroup.visibility =
@@ -113,7 +114,15 @@ internal fun PostBinding.fillWithPost(post: Post?) {
     }
 }
 
+internal fun Bundle.withPostContent(post: Post): Bundle {
+    putString(POST_CONTENT_TEXT, post.text)
+    putString(POST_CONTENT_VIDEO_LINK, post.videoLink)
+    return this
+}
+
 // region APP_CONSTANTS
-const val LINK_KEY = "postLink"
+const val POST_CONTENT_TEXT = "postContentText"
+const val POST_CONTENT_VIDEO_LINK = "postContentVideoLink"
+
 
 // endregion APP_CONSTANTS
