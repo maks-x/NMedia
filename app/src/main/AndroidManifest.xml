@@ -33,7 +33,7 @@
 
         <activity
             android:name=".activity.PostContentActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
     </application>
 
