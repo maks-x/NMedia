@@ -1,6 +1,7 @@
 package ru.netology.nmedia.repository
 
 import android.app.Application
+import android.content.Context
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import kotlinx.serialization.decodeFromString
@@ -17,7 +18,7 @@ class SharedPrefsPostRepository(
 ) : PostRepository {
 
     private val prefs = application.getSharedPreferences(
-        COMMON_SHARED_PREFS_KEY, Application.MODE_PRIVATE
+        COMMON_SHARED_PREFS_KEY, Context.MODE_PRIVATE
     )
 
     override val data: MutableLiveData<List<Post>>

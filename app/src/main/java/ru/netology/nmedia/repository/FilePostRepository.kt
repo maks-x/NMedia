@@ -1,6 +1,7 @@
 package ru.netology.nmedia.repository
 
 import android.app.Application
+import android.content.Context
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
@@ -19,7 +20,7 @@ class FilePostRepository(
     private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
 
     private val prefs = application.getSharedPreferences(
-        COMMON_SHARED_PREFS_KEY, Application.MODE_PRIVATE
+        COMMON_SHARED_PREFS_KEY, Context.MODE_PRIVATE
     )
 
     override val data: MutableLiveData<List<Post>>
@@ -27,11 +28,11 @@ class FilePostRepository(
     init {
         val postsFile = application.filesDir.resolve(POSTS_FILE_NAME)
         val posts: List<Post> = if (postsFile.exists()) {
-            val inputStream = application.openFileInput(POSTS_FILE_NAME)
-            val reader = inputStream.bufferedReader()
-            reader.use {
-                gson.fromJson(it, type)
-            }
+            application.openFileInput(POSTS_FILE_NAME)
+                .bufferedReader()
+                .use {
+                    gson.fromJson(it, type)
+                }
         } else emptyList()
 
         data = MutableLiveData(samplePosts(application) + posts)
@@ -42,7 +43,7 @@ class FilePostRepository(
             "Data value should not be null"
         }
         set(value) {
-            application.openFileOutput(POSTS_FILE_NAME, Application.MODE_PRIVATE)
+            application.openFileOutput(POSTS_FILE_NAME, Context.MODE_PRIVATE)
                 .bufferedWriter()
                 .use {
                     it.write(gson.toJson(value))
@@ -97,7 +98,7 @@ class FilePostRepository(
                 text = "Новость №$newPostID\n" + post.text
             )
         ) + posts
-        newPostID += 1
+        newPostID += 1L
     }
 
     private fun updatePost(post: Post) {
