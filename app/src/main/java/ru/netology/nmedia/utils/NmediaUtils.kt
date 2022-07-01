@@ -1,24 +1,33 @@
 package ru.netology.nmedia.utils
 
-import android.app.Activity
 import android.content.Context
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.edit
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
 
+// region KEYBOARD
+
+private val View.inputMethodManager
+    get() = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
 internal fun View.hideKeyboard() {
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(windowToken, /* flags = */0)
+    inputMethodManager.hideSoftInputFromWindow(windowToken, /* flags = */0)
 }
 
-//иначе клавиатура не подтягивается после requestFocus(), есть ли другой способ?
-internal fun Activity.showKeyboard() {
-    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+// клавиатура не подтягивается
+// showSoftInput замылил... бестолку... Как сделать это правильно?
+internal fun View.showKeyboard() {
+    inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+
+//    а этот франкенштейн вообще не даёт клавиатуре пропасть
+//    в режиме alwaysOnDisplay на моем Android 10
+        //    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, /* flags = */0)
 }
+
+// endregion KEYBOARD
 
 internal fun <T> List<T>.repeatIfOutOfBound(requiredIndex: Int) =
     this[requiredIndex % size]
@@ -122,8 +131,6 @@ internal fun PostBinding.fillWithPost(post: Post?) {
         }
     }
 }
-
-internal fun Post.isEmpty() = text.isBlank()
 
 // region APP_CONSTANTS
 

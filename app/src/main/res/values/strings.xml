@@ -26,4 +26,7 @@
     <string name="edit_post_title">Edit post</string>
     <string name="play_video">Play video</string>
     <string name="edit_link_hint">You can attach a link to the video</string>
+    <string name="close">Close</string>
+    <string name="to_text">To text</string>
+    <string name="to_link">To link</string>
 </resources>

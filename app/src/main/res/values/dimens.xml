@@ -6,4 +6,5 @@
     <dimen name="bottom_app_bar_min_height">56dp</dimen>
     <dimen name="fab_half_size">28dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="post_content_margin_bottom">72dp</dimen>
 </resources>

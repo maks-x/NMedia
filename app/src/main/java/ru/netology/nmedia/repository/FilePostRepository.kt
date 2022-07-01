@@ -23,20 +23,7 @@ class FilePostRepository(
         COMMON_SHARED_PREFS_KEY, Context.MODE_PRIVATE
     )
 
-    override val data: MutableLiveData<List<Post>>
-
-    init {
-        val postsFile = application.filesDir.resolve(POSTS_FILE_NAME)
-        val posts: List<Post> = if (postsFile.exists()) {
-            application.openFileInput(POSTS_FILE_NAME)
-                .bufferedReader()
-                .use {
-                    gson.fromJson(it, type)
-                }
-        } else emptyList()
-
-        data = MutableLiveData(samplePosts(application) + posts)
-    }
+    override val data = MutableLiveData<List<Post>>()
 
     private var posts
         get() = checkNotNull(data.value) {
@@ -51,6 +38,21 @@ class FilePostRepository(
 
             data.value = value
         }
+
+    init {
+        val postsFile = application.filesDir.resolve(POSTS_FILE_NAME)
+        val posts: List<Post> = if (postsFile.exists()) {
+            application.openFileInput(POSTS_FILE_NAME)
+                .bufferedReader()
+                .use {
+                    gson.fromJson(it, type)
+                }
+        } else emptyList()
+
+        val samplePosts = samplePosts(application)
+
+        this.posts = samplePosts + posts
+    }
 
     private var newPostID = prefs.getLong(NEXT_POST_ID_PREFS_KEY, posts.size + 1L)
         set(value) {

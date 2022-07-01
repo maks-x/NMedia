@@ -7,30 +7,85 @@
     tools:context=".ui.PostContentFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/post_content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/bottom_app_bar_min_height"
+        android:layout_marginBottom="@dimen/post_content_margin_bottom"
         android:padding="@dimen/common_spacing">
 
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/posts_avatar_size"
+            android:layout_height="@dimen/posts_avatar_size"
+            android:layout_marginBottom="@dimen/common_spacing"
+            android:contentDescription="@string/avatar_description"
+            app:layout_constraintBottom_toTopOf="@id/top_barrier"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars[3]" />
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_spacing"
+            android:layout_marginEnd="@dimen/common_spacing"
+            android:ellipsize="end"
+            android:singleLine="true"
+            app:layout_constraintBottom_toTopOf="@id/published"
+            app:layout_constraintEnd_toStartOf="@id/close"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Some name of public or user as long, as it necessary" />
+
+        <TextView
+            android:id="@+id/published"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/common_spacing"
+            android:ellipsize="end"
+            android:singleLine="true"
+            app:layout_constraintBottom_toTopOf="@id/top_barrier"
+            app:layout_constraintEnd_toEndOf="@id/author"
+            app:layout_constraintStart_toStartOf="@id/author"
+            app:layout_constraintTop_toBottomOf="@id/author"
+            tools:text="April 27, 23:23" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/close"
+            style="@style/Widget.AppTheme.PostButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/close"
+            app:icon="@drawable/ic_cancel_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/top_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="avatar,published,close" />
+
         <EditText
-            android:id="@+id/edit"
+            android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:drawableTop="@drawable/ic_baseline_edit_note_24"
+            android:drawableTint="?attr/colorControlNormal"
             android:hint="@string/post_add_hint"
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
-            app:layout_constraintBottom_toTopOf="@id/editLink"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_weight="3"
+            app:layout_constraintTop_toBottomOf="@id/top_barrier"
             tools:text="@tools:sample/lorem/random" />
 
         <EditText
             android:id="@+id/editLink"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/bottom_app_bar_min_height"
             android:drawableTop="@drawable/ic_baseline_add_link_24"
             android:drawableTint="?attr/colorControlNormal"
             android:hint="@string/edit_link_hint"
@@ -38,9 +93,10 @@
             android:inputType="textMultiLine"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit"
-            app:layout_constraintVertical_weight="2"
-            tools:text="@tools:sample/lorem/random" />
+            app:layout_constraintTop_toBottomOf="@id/top_barrier"
+            tools:text="@tools:sample/lorem/random"
+            tools:visibility="invisible" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -49,7 +105,8 @@
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_app_bar_min_height"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        android:height="@dimen/bottom_app_bar_min_height" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ok"
@@ -58,6 +115,27 @@
         android:contentDescription="@string/description_post_save"
         app:layout_anchor="@id/bottomAppBar"
         app:srcCompat="@drawable/ic_ok_24" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/to_text"
+        style="@style/Widget.AppTheme.PostContentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/to_text"
+        android:text="@string/to_text"
+        app:layout_anchor="@id/bottomAppBar"
+        app:layout_anchorGravity="center_vertical"
+        tools:visibility="invisible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/to_link"
+        style="@style/Widget.AppTheme.PostContentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/to_link"
+        android:text="@string/to_link"
+        app:layout_anchor="@id/bottomAppBar"
+        app:layout_anchorGravity="end|center_vertical" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
