@@ -2,7 +2,6 @@ package ru.netology.nmedia.utils
 
 import android.app.Activity
 import android.content.Context
-import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -124,22 +123,22 @@ internal fun PostBinding.fillWithPost(post: Post?) {
     }
 }
 
-internal fun Bundle.withPostContent(post: Post): Bundle {
-    putString(POST_CONTENT_TEXT, post.text)
-    putString(POST_CONTENT_VIDEO_LINK, post.videoLink)
-    return this
-}
+internal fun Post.isEmpty() = text.isBlank()
 
 // region APP_CONSTANTS
-const val POST_CONTENT_TEXT = "postContentText"
-const val POST_CONTENT_VIDEO_LINK = "postContentVideoLink"
 
 const val COMMON_SHARED_PREFS_KEY = "commonPrefs"
-const val POSTS_PREFS_KEY = "posts"
 const val FIRST_START_PREFS_KEY = "firstStart"
 const val NEXT_POST_ID_PREFS_KEY = "nextID"
 
 const val POSTS_FILE_NAME = "posts.json"
+
+const val RESULT_BUNDLE_KEY = "resultBundleKey"
+
+const val EMPTY_OR_EXISTING_POST_KEY = "emptyOrExistingPost"
+const val NEW_OR_EDITED_POST_KEY = "newOrEditedPost"
+
+const val FEED_FRAGMENT_TAG = "tag"
 
 
 // endregion APP_CONSTANTS

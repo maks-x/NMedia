@@ -11,7 +11,8 @@
         android:theme="@style/Theme.NMedia">
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +22,7 @@
         </activity>
 
         <activity
-            android:name=".activity.IntentHandlerActivity"
+            android:name=".ui.IntentHandlerActivity"
             android:exported="true"
             android:label="@string/snack_bar">
             <intent-filter>
@@ -30,10 +31,6 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".activity.PostContentActivity"
-            android:exported="false" />
 
     </application>
 
