@@ -5,22 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ru.netology.nmedia.databinding.FragmentPostContentBinding
-import ru.netology.nmedia.utils.NEW_OR_EDITED_POST_KEY
-import ru.netology.nmedia.utils.RESULT_BUNDLE_KEY
 import ru.netology.nmedia.utils.hideKeyboard
 import ru.netology.nmedia.utils.showKeyboard
+import ru.netology.nmedia.viewModel.PostViewModel
 
 class PostContentFragment : Fragment() {
+    private val viewModel: PostViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentPostContentBinding.inflate(layoutInflater, container, false)
+    ) = FragmentPostContentBinding.inflate(inflater, container, false)
         .also { binding ->
             val post = navArgs<PostContentFragmentArgs>().value.emptyOrExistingPost
 
@@ -55,18 +57,11 @@ class PostContentFragment : Fragment() {
                             if (isNullOrBlank()) null else toString()
                         }
 
-                        val resultBundle = Bundle(1)
-                            .apply {
-                                putParcelable(
-                                    NEW_OR_EDITED_POST_KEY,
-                                    post.copy(
-                                        text = text,
-                                        videoLink = link
-                                    )
-                                )
-                            }
-
-                        setFragmentResult(RESULT_BUNDLE_KEY, resultBundle)
+                        val newOrEditedPost = post.copy(
+                            text = text,
+                            videoLink = link
+                        )
+                        viewModel.savePost(newOrEditedPost)
                     }
                     findNavController().popBackStack()
                 }

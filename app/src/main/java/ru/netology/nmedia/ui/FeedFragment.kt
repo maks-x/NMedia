@@ -6,17 +6,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.PostsFeedAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
-import ru.netology.nmedia.utils.RESULT_BUNDLE_KEY
 import ru.netology.nmedia.viewModel.PostViewModel
 
 class FeedFragment : Fragment() {
-    private val viewModel: PostViewModel by viewModels()
+    private val viewModel: PostViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,13 +34,6 @@ class FeedFragment : Fragment() {
                     )
                     startActivity(shareIntent)
                 }
-        }
-
-        setFragmentResultListener(
-            requestKey = RESULT_BUNDLE_KEY
-        ) { requestKey, postBundle ->
-            if (requestKey != RESULT_BUNDLE_KEY) return@setFragmentResultListener
-            viewModel.savePost(postBundle)
         }
 
         viewModel.navigateToPostContentActivityEvent.observe(this) {

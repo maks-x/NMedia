@@ -140,9 +140,5 @@ const val NEXT_POST_ID_PREFS_KEY = "nextID"
 
 const val POSTS_FILE_NAME = "posts.json"
 
-const val RESULT_BUNDLE_KEY = "resultBundleKey"
-
-const val NEW_OR_EDITED_POST_KEY = "newOrEditedPost"
-
 
 // endregion APP_CONSTANTS
