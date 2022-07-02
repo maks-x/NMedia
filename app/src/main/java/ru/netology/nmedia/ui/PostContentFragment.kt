@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import ru.netology.nmedia.databinding.FragmentPostContentBinding
-import ru.netology.nmedia.objects.Post
-import ru.netology.nmedia.utils.*
+import ru.netology.nmedia.utils.NEW_OR_EDITED_POST_KEY
+import ru.netology.nmedia.utils.RESULT_BUNDLE_KEY
+import ru.netology.nmedia.utils.hideKeyboard
+import ru.netology.nmedia.utils.showKeyboard
 
 class PostContentFragment : Fragment() {
 
@@ -19,10 +22,7 @@ class PostContentFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FragmentPostContentBinding.inflate(layoutInflater, container, false)
         .also { binding ->
-            val postBundle = requireArguments()
-            val post = checkNotNull(
-                postBundle.getParcelable<Post>(EMPTY_OR_EXISTING_POST_KEY)
-            ) { "there is no post in fragment's arguments" }
+            val post = navArgs<PostContentFragmentArgs>().value.emptyOrExistingPost
 
             with(binding) {
                 makeVisibleAndFocus(TEXT)
@@ -36,7 +36,7 @@ class PostContentFragment : Fragment() {
                 post.videoLink?.let { editLink.setText(it) }
 
                 close.setOnClickListener {
-                    parentFragmentManager.popBackStack()
+                    findNavController().popBackStack()
                 }
 
                 toLink.setOnClickListener {
@@ -68,7 +68,7 @@ class PostContentFragment : Fragment() {
 
                         setFragmentResult(RESULT_BUNDLE_KEY, resultBundle)
                     }
-                    parentFragmentManager.popBackStack()
+                    findNavController().popBackStack()
                 }
             }
         }.root

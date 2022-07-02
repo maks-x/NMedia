@@ -6,13 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.PostsFeedAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
-import ru.netology.nmedia.utils.EMPTY_OR_EXISTING_POST_KEY
 import ru.netology.nmedia.utils.RESULT_BUNDLE_KEY
 import ru.netology.nmedia.viewModel.PostViewModel
 
@@ -46,16 +45,8 @@ class FeedFragment : Fragment() {
 
         viewModel.navigateToPostContentActivityEvent.observe(this) {
             it.getContentIfNotHandled()?.let { emptyOrExistingPost ->
-                parentFragmentManager.commit {
-                    replace(
-                        R.id.fragmentContainer,
-                        PostContentFragment::class.java,
-                        Bundle(1).apply {
-                            putParcelable(EMPTY_OR_EXISTING_POST_KEY, emptyOrExistingPost)
-                        }
-                    )
-                    addToBackStack(null)
-                }
+                val direction = FeedFragmentDirections.toPostContentFragment(emptyOrExistingPost)
+                findNavController().navigate(direction)
             }
         }
 

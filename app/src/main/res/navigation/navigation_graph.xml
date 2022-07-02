@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/feedFragment">
+
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="ru.netology.nmedia.ui.FeedFragment"
+        android:label="FeedFragment"
+        tools:layout="@layout/fragment_feed">
+        <action
+            android:id="@+id/to_postContentFragment"
+            app:destination="@id/postContentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postContentFragment"
+        android:name="ru.netology.nmedia.ui.PostContentFragment"
+        android:label="fragment_post_content"
+        tools:layout="@layout/fragment_post_content">
+        <argument
+            android:name="emptyOrExistingPost"
+            app:argType="ru.netology.nmedia.objects.Post" />
+    </fragment>
+</navigation>

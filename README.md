@@ -9,14 +9,9 @@
   создании переменной currentPost во ViewModel и, соответственно избавляет нас от найденного бага
   без необходимости в использовании SavedStateHandle в нашей ViewModel:
 
-* При переходе из [FeedFragment] на [PostContentFragment] в функции [commit] я использовал
-  метод [replace] с тремя аругументами, в числе которых Bundle с аргументами
-  для [PostContentFragment], вместо использования [replace] c двумя аргументами и дополнительной
-  функции в [companion object].
+* Кастомная реализация [PostContentFragment]:
 
-* Кастомная реализация: 
-
->"[PostContentFragment] и проблемы с клавиатурой и фокусом"  
+>" PostContentFragment и проблемы с клавиатурой и фокусом"  
 > by me
 > 
   Перелопатил много информации... Судя по всему недостаточно много.

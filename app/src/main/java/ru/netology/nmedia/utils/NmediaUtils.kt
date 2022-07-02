@@ -142,10 +142,7 @@ const val POSTS_FILE_NAME = "posts.json"
 
 const val RESULT_BUNDLE_KEY = "resultBundleKey"
 
-const val EMPTY_OR_EXISTING_POST_KEY = "emptyOrExistingPost"
 const val NEW_OR_EDITED_POST_KEY = "newOrEditedPost"
-
-const val FEED_FRAGMENT_TAG = "tag"
 
 
 // endregion APP_CONSTANTS
