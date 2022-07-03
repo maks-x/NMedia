@@ -8,11 +8,19 @@
     <string name="comment_button_description">Комментарии</string>
     <string name="share_button_description">Поделиться</string>
     <string name="views_image_description">Просмотры</string>
-    <string name="post_button">что-то новое (не) здесь =)</string>
     <string name="remove_post_option">Удалить</string>
     <string name="post_hint">Введите текст…</string>
     <string name="publish_post">Опубликовать пост</string>
     <string name="edit_post_options">Редактироать</string>
     <string name="cancel_editing">Отменить редактирование</string>
     <string name="editing_mode_text">Редактирование:</string>
+    <string name="chooser_share_post">Поделиться</string>
+    <string name="description_post_save">Сохранить</string>
+    <string name="post_add_hint">"Какие новости?\\n Может вас трудно найти…? =)     "</string>
+    <string name="add_post">Добавить пост</string>
+    <string name="snack_bar">ОГО! Snackbar!</string>
+    <string name="add_post_title">Добавить пост</string>
+    <string name="edit_post_title">Редактировать пост</string>
+    <string name="play_video">Играть видео</string>
+    <string name="edit_link_hint">Вы можете прикрепить ссылку на видео</string>
 </resources>

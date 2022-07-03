@@ -1,20 +1,24 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.utils
 
+import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.MutableLiveData
-import ru.netology.nmedia.databinding.PostsFeedBinding
+import ru.netology.nmedia.R
+import ru.netology.nmedia.databinding.PostBinding
+import ru.netology.nmedia.objects.Post
 
 internal fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, /* flags = */0)
 }
 
-internal fun PostsFeedBinding.clearInputArea() {
-    inputText.clearFocus()
-    inputText.hideKeyboard()
-    editingGroup.visibility = View.GONE
+//иначе клавиатура не подтягивается после requestFocus(), есть ли другой способ?
+internal fun Activity.showKeyboard() {
+    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 }
 
 internal fun <T> List<T>.repeatIfOutOfBound(requiredIndex: Int) =
@@ -50,17 +54,6 @@ internal fun Context.formatCountOf(property: Int): String {
     }
 }
 
-class SingleEvent {
-    private var hasBeenHandled = false
-
-    fun runIfNotHandled(action: () -> Unit) {
-        if (!hasBeenHandled) {
-            hasBeenHandled = true
-            action()
-        }
-    }
-}
-
 internal fun MutableLiveData<List<Post>>.fillWithSample() = apply {
     val startCount = 100
     var newPostID = 1L
@@ -89,8 +82,9 @@ internal fun MutableLiveData<List<Post>>.fillWithSample() = apply {
             avatarID = R.mipmap.ic_champ_league_logo,
             author = "UEFA Champ. League",
             published = "07.05.2022",
-            content = newsHeaderPattern.format(postID)
+            text = newsHeaderPattern.format(postID)
                     + news.repeatIfOutOfBound(index),
+            videoLink = "https://www.youtube.com/watch?v=WhWc3b3KhnY",
             likesCount = 2000000000,
             commentsCount = 2000000000,
             viewsCount = 2000000000,
@@ -98,3 +92,37 @@ internal fun MutableLiveData<List<Post>>.fillWithSample() = apply {
         )
     }.reversed()
 }
+
+internal fun PostBinding.fillWithPost(post: Post?) {
+    post?.let {
+        avatar.setImageResource(post.avatarID)
+        author.text = post.author
+        content.text = post.text
+        published.text = post.published
+        likes.isChecked = post.likedByMe
+        videoViewGroup.visibility =
+            if (post.videoLink.isNullOrBlank()) View.GONE
+            else View.VISIBLE
+
+
+        with(root.context) {
+            likes.text = formatCountOf(post.likesCount)
+            comments.text = formatCountOf(post.commentsCount)
+            share.text = formatCountOf(post.shareCount)
+            views.text = formatCountOf(post.viewsCount)
+        }
+    }
+}
+
+internal fun Bundle.withPostContent(post: Post): Bundle {
+    putString(POST_CONTENT_TEXT, post.text)
+    putString(POST_CONTENT_VIDEO_LINK, post.videoLink)
+    return this
+}
+
+// region APP_CONSTANTS
+const val POST_CONTENT_TEXT = "postContentText"
+const val POST_CONTENT_VIDEO_LINK = "postContentVideoLink"
+
+
+// endregion APP_CONSTANTS

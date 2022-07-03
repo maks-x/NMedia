@@ -1,6 +1,8 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.repository
 
 import androidx.lifecycle.MutableLiveData
+import ru.netology.nmedia.objects.Post
+import ru.netology.nmedia.utils.fillWithSample
 
 class PostRepositoryInMemoryImpl : PostRepository {
 
@@ -27,11 +29,11 @@ class PostRepositoryInMemoryImpl : PostRepository {
         }
     }
 
-    override fun share(postID: Long) {
-        data.value = posts.map { post ->
-            if (post.id != postID) post
-            else post.copy(
-                shareCount = post.shareCount + 1
+    override fun share(post: Post) {
+        data.value = posts.map {
+            if (it != post) it
+            else it.copy(
+                shareCount = it.shareCount + 1
             )
         }
     }
@@ -42,7 +44,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
 
     override fun save(post: Post) =
         when (post.id) {
-            PostRepository.NEW_POST_ID_CHECKER -> addNewPost(post)
+            Post.DEFAULT_POST_ID -> addNewPost(post)
             else -> updatePost(post)
         }
 
@@ -50,7 +52,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
         data.value = listOf(
             post.copy(
                 id = newPostID,
-                content = "Новость №$newPostID\n" + post.content
+                text = "Новость №$newPostID\n" + post.text
             )
         ) + posts
         newPostID++

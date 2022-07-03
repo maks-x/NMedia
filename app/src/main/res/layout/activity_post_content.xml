@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.PostContentActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/bottom_app_bar_min_height"
+        android:padding="@dimen/common_spacing">
+
+        <EditText
+            android:id="@+id/edit"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:hint="@string/post_add_hint"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            app:layout_constraintBottom_toTopOf="@id/editLink"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="2"
+            tools:text="@tools:sample/lorem/random" />
+
+        <EditText
+            android:id="@+id/editLink"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/bottom_app_bar_min_height"
+            android:drawableTop="@drawable/ic_baseline_add_link_24"
+            android:drawableTint="?attr/colorControlNormal"
+            android:hint="@string/edit_link_hint"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit"
+            app:layout_constraintVertical_weight="1"
+            tools:text="@tools:sample/lorem/random" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_app_bar_min_height"
+        android:layout_gravity="bottom" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/description_post_save"
+        app:layout_anchor="@id/bottomAppBar"
+        app:srcCompat="@drawable/ic_ok_24" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

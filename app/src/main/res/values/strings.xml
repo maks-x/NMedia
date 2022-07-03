@@ -8,7 +8,6 @@
     <string name="comment_button_description">Comments</string>
     <string name="share_button_description">Share</string>
     <string name="views_image_description">Views</string>
-    <string name="post_button">something new (not) here =)</string>
     <string name="default_pattern" translatable="false">%s</string>
     <string name="thousands_pattern" translatable="false">%sK</string>
     <string name="millions_pattern" translatable="false">%sM</string>
@@ -18,4 +17,13 @@
     <string name="edit_post_options">Edit</string>
     <string name="cancel_editing">Cancel editing</string>
     <string name="editing_mode_text">Editing:</string>
+    <string name="chooser_share_post">Share post</string>
+    <string name="description_post_save">Save</string>
+    <string name="post_add_hint">Post content</string>
+    <string name="add_post">Add post</string>
+    <string name="snack_bar">WOW! Snackbar!</string>
+    <string name="add_post_title">Add post</string>
+    <string name="edit_post_title">Edit post</string>
+    <string name="play_video">Play video</string>
+    <string name="edit_link_hint">You can attach a link to the video</string>
 </resources>
