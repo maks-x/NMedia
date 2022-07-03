@@ -24,7 +24,7 @@ class PostContentFragment : Fragment() {
         savedInstanceState: Bundle?
     ) = FragmentPostContentBinding.inflate(inflater, container, false)
         .also { binding ->
-            val post = navArgs<PostContentFragmentArgs>().value.emptyOrExistingPost
+            val post = navArgs<PostContentFragmentArgs>().value.post
 
             with(binding) {
                 makeVisibleAndFocus(TEXT)

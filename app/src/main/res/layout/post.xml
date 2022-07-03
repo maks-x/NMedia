@@ -7,17 +7,6 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/common_spacing">
 
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="@dimen/posts_avatar_size"
-        android:layout_height="@dimen/posts_avatar_size"
-        android:layout_marginBottom="@dimen/common_spacing"
-        android:contentDescription="@string/avatar_description"
-        app:layout_constraintBottom_toTopOf="@id/top_barrier"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars[3]" />
-
     <TextView
         android:id="@+id/author"
         android:layout_width="0dp"
@@ -45,6 +34,37 @@
         app:layout_constraintTop_toBottomOf="@id/author"
         tools:text="April 27, 23:23" />
 
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        app:layout_constraintBottom_toTopOf="@id/videoBarrier"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_barrier"
+        tools:text="Here is some text with meaning. It can contain more then one line." />
+
+    <View
+        android:id="@+id/postNavigateArea"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="@id/bottomBarrier"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="#8100FF19" />
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/posts_avatar_size"
+        android:layout_height="@dimen/posts_avatar_size"
+        android:layout_marginBottom="@dimen/common_spacing"
+        android:contentDescription="@string/avatar_description"
+        app:layout_constraintBottom_toTopOf="@id/top_barrier"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars[3]" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/posts_options"
         style="@style/Widget.AppTheme.PostButtonStyle"
@@ -53,7 +73,8 @@
         android:contentDescription="@string/posts_menu_description"
         app:icon="@drawable/ic_menu_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:backgroundTint="@android:color/white"/>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/top_barrier"
@@ -62,14 +83,6 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="avatar,published,posts_options" />
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/videoBarrier"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_barrier"
-        tools:text="Here is some text with meaning. It can contain more then one line." />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/videoBarrier"
@@ -81,7 +94,7 @@
 
     <ImageView
         android:id="@+id/videoPreview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:contentDescription="@string/play_video"
@@ -90,7 +103,9 @@
         android:src="@mipmap/ic_champ_league_logo_background"
         app:layout_constraintBottom_toBottomOf="@id/bottomBarrier"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/videoBarrier" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/videoBarrier"
+        tools:background="@android:color/white"/>
 
     <ImageButton
         android:id="@+id/videoPlay"
@@ -109,7 +124,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="videoPreview, videoPlay">
+        app:constraint_referenced_ids="videoPreview, videoPlay"
+        tools:visibility="visible">
 
     </androidx.constraintlayout.widget.Group>
 

@@ -2,13 +2,14 @@ package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
 import ru.netology.nmedia.utils.fillWithPost
-import ru.netology.nmedia.utils.setBasicListeners
 import ru.netology.nmedia.viewModel.PostInteractionListener
 
 internal class PostsFeedAdapter(
@@ -20,7 +21,6 @@ internal class PostsFeedAdapter(
         val postBinding = PostBinding.inflate(
             inflater, parent, false
         )
-
         return ViewHolder(postBinding, interactionListener)
     }
 
@@ -34,13 +34,36 @@ internal class PostsFeedAdapter(
         listener: PostInteractionListener
     ) : RecyclerView.ViewHolder(postBinding.root) {
 
-//        необходимо инициализировать значение post для использования
-//        в стороннем коде (setBasicListeners)
-        private var post = Post()
+        private lateinit var post: Post
+
+        private val popupMenu by lazy {
+            PopupMenu(itemView.context, postBinding.postsOptions).apply {
+                inflate(R.menu.options_post)
+                setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.popupRemove -> {
+                            listener.onRemoveClick(post.id)
+                            true
+                        }
+                        R.id.popupEdit -> {
+                            listener.onEditClick(post)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }
+        }
 
         init {
             with(postBinding) {
-                setBasicListeners(post, listener)
+                likes.setOnClickListener { listener.onLikeClick(post.id) }
+                share.setOnClickListener { listener.onShareClick(post) }
+                postsOptions.setOnClickListener { popupMenu.show() }
+                videoPlay.setOnClickListener {
+                    post.videoLink?.let { listener.onVideoLinkClick(it) }
+                }
+                videoPreview.setOnClickListener { videoPlay.performClick() }
                 postNavigateArea.setOnClickListener { listener.onPostNavigateAreaClick(post) }
             }
         }

@@ -43,6 +43,13 @@ class FeedFragment : Fragment() {
             }
         }
 
+        viewModel.navigateToPostFragmentEvent.observe(this) {
+            it.getContentIfNotHandled()?.let { post ->
+                val direction = FeedFragmentDirections.toPostFragment(post)
+                findNavController().navigate(direction,)
+            }
+        }
+
         viewModel.videoPlayEvent.observe(this) {
             it.getContentIfNotHandled()
                 .let { url ->

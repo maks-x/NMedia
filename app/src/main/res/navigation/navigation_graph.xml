@@ -13,6 +13,9 @@
         <action
             android:id="@+id/to_postContentFragment"
             app:destination="@id/postContentFragment" />
+        <action
+            android:id="@+id/toPostFragment"
+            app:destination="@id/postFragment" />
     </fragment>
     <fragment
         android:id="@+id/postContentFragment"
@@ -20,7 +23,16 @@
         android:label="fragment_post_content"
         tools:layout="@layout/fragment_post_content">
         <argument
-            android:name="emptyOrExistingPost"
+            android:name="post"
+            app:argType="ru.netology.nmedia.objects.Post" />
+    </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="ru.netology.nmedia.ui.PostFragment"
+        android:label="PostFragment"
+        tools:layout="@layout/fragment_post">
+        <argument
+            android:name="currentPost"
             app:argType="ru.netology.nmedia.objects.Post" />
     </fragment>
 </navigation>

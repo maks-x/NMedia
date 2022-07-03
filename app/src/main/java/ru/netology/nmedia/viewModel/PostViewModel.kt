@@ -17,6 +17,8 @@ class PostViewModel(
 
     val navigateToPostContentActivityEvent = MutableLiveData<SingleEvent<Post>>()
 
+    val navigateToPostFragmentEvent = MutableLiveData<SingleEvent<Post>>()
+
     val sharePostContentEvent = MutableLiveData<SingleEvent<String>>()
 
     val videoPlayEvent = MutableLiveData<SingleEvent<String>>()
@@ -45,6 +47,11 @@ class PostViewModel(
     override fun onVideoLinkClick(link: String) {
         videoPlayEvent.value = SingleEvent(link)
     }
+
+    override fun onPostNavigateAreaClick(post: Post) {
+        navigateToPostFragmentEvent.value = SingleEvent(post)
+    }
+
 
     // endregion PostInteractionListener
 }
