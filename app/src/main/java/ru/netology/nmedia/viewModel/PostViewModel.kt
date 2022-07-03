@@ -23,12 +23,29 @@ class PostViewModel(
 
     val videoPlayEvent = MutableLiveData<SingleEvent<String>>()
 
+    val postFragmentRemoveEvent = MutableLiveData<SingleEvent<Long>>()
+    val postFragmentEditEvent = MutableLiveData<SingleEvent<Post>>()
+
+    val scrollOnNewPostEvent = MutableLiveData<SingleEvent<Unit>>()
+
+    fun scrollOnTop() {
+        scrollOnNewPostEvent.value = SingleEvent()
+    }
+
     fun savePost(newOrEditedPost: Post) {
         repository.save(newOrEditedPost)
     }
 
     fun onAddButtonClick() {
         navigateToPostContentActivityEvent.value = SingleEvent(Post())
+    }
+
+    fun onPostFragmentRemove(postID: Long) {
+        postFragmentRemoveEvent.value = SingleEvent(postID)
+    }
+
+    fun onPostFragmentEdit(post: Post) {
+        postFragmentEditEvent.value = SingleEvent(post)
     }
 
     // region PostInteractionListener

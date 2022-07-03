@@ -3,12 +3,10 @@ package ru.netology.nmedia.utils
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.PopupMenu
 import androidx.core.content.edit
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
-import ru.netology.nmedia.viewModel.PostInteractionListener
 
 // region KEYBOARD
 
@@ -130,33 +128,7 @@ internal fun PostBinding.fillWithPost(post: Post) {
         share.text = formatCountOf(post.shareCount)
         views.text = formatCountOf(post.viewsCount)
     }
-    
-}
 
-internal fun PostBinding.setBasicListeners(post: Post, listener: PostInteractionListener) {
-    val postPopupMenu = PopupMenu(root.context, postsOptions).apply {
-        inflate(R.menu.options_post)
-        setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.popupRemove -> {
-                    listener.onRemoveClick(post.id)
-                    true
-                }
-                R.id.popupEdit -> {
-                    listener.onEditClick(post)
-                    true
-                }
-                else -> false
-            }
-        }
-    }
-    likes.setOnClickListener { listener.onLikeClick(post.id) }
-    share.setOnClickListener { listener.onShareClick(post) }
-    postsOptions.setOnClickListener { postPopupMenu.show() }
-    videoPlay.setOnClickListener {
-        post.videoLink?.let { listener.onVideoLinkClick(it) }
-    }
-    videoPreview.setOnClickListener { videoPlay.performClick() }
 }
 
 // region APP_CONSTANTS

@@ -51,7 +51,7 @@ class FilePostRepository(
 
         val samplePosts = samplePosts(application)
 
-        this.posts = posts
+        this.posts = samplePosts + posts
     }
 
     private var newPostID = prefs.getLong(NEXT_POST_ID_PREFS_KEY, posts.size + 1L)

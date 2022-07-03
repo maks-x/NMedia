@@ -24,6 +24,10 @@
 -> ***FIXED***
 > *решение проблемы описано [здесь](https://stackoverflow.com/a/59275182)*
 
+* Скролл к новому посту перестал работать, поскольку adapter.itemCount == 0 при инициализации
+  FeedFragment (насколько я понял), что всегда меньше posts.size, если есть хотя бы один пост.
+  Поэтому снова реализовал скролл через observable SingleEvent
+
 ### снова баги
 
 * Стоит так же отметить что в моей реализации при обработке Intent.Action.SEND внутри нашего
@@ -36,9 +40,9 @@
 При этом если вернуться на неактуальный фрагмент, можно снова нажать поделиться и тогда новый
 добавленный пост сотрет старый, т.к. ему присвоится тот же ID Я предположил, что поэтому нужно
 использовать SharedViewModel (собственно, дальше последовала её реализация), однако это не помогло,
-фрагменты копятся в стеке. Отложил проблему за неимением времени.
+фрагменты копятся в стеке. Отложил проблему за неимением времени. ** HELP! ** 
 
-* Также при обработке Intent.Action.SEND, если не удалить текст из интента, легко поймать
-  IllegalArgumentException при перевороте экрана в [PostContentFragment] со следующим логом:
+Также при обработке Intent.Action.SEND, если не удалить текст из интента, легко поймать
+IllegalArgumentException при перевороте экрана в [PostContentFragment] со следующим логом:
 
 > E/AndroidRuntime: FATAL EXCEPTION: main Process: ru.netology.nmedia, PID: 21332 java.lang.RuntimeException: Unable to start activity ComponentInfo{ru.netology.nmedia/ru.netology.nmedia.ui.MainActivity}: java.lang.IllegalArgumentException: Navigation action/destination ru.netology.nmedia:id/to_postContentFragment cannot be found from the current destination Destination(ru.netology.nmedia:id/postContentFragment) label=fragment_post_content class=ru.netology.nmedia.ui.PostContentFragment at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2914)... ...

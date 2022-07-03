@@ -34,5 +34,8 @@
         <argument
             android:name="currentPost"
             app:argType="ru.netology.nmedia.objects.Post" />
+        <action
+            android:id="@+id/postFragmentToPostContentFragment"
+            app:destination="@id/postContentFragment" />
     </fragment>
 </navigation>

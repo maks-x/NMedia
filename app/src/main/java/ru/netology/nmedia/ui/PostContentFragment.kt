@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ru.netology.nmedia.databinding.FragmentPostContentBinding
+import ru.netology.nmedia.objects.Post.Companion.DEFAULT_POST_ID
 import ru.netology.nmedia.utils.hideKeyboard
 import ru.netology.nmedia.utils.showKeyboard
 import ru.netology.nmedia.viewModel.PostViewModel
@@ -62,6 +63,7 @@ class PostContentFragment : Fragment() {
                             videoLink = link
                         )
                         viewModel.savePost(newOrEditedPost)
+                        if (newOrEditedPost.id == DEFAULT_POST_ID) viewModel.scrollOnTop()
                     }
                     findNavController().popBackStack()
                 }

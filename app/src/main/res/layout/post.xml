@@ -74,7 +74,7 @@
         app:icon="@drawable/ic_menu_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:backgroundTint="@android:color/white"/>
+        tools:backgroundTint="@android:color/white" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/top_barrier"
@@ -102,10 +102,10 @@
         android:padding="@dimen/common_spacing"
         android:src="@mipmap/ic_champ_league_logo_background"
         app:layout_constraintBottom_toBottomOf="@id/bottomBarrier"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/videoBarrier"
-        tools:background="@android:color/white"/>
+        tools:background="@android:color/white" />
 
     <ImageButton
         android:id="@+id/videoPlay"

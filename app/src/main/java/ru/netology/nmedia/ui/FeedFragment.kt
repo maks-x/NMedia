@@ -46,16 +46,20 @@ class FeedFragment : Fragment() {
         viewModel.navigateToPostFragmentEvent.observe(this) {
             it.getContentIfNotHandled()?.let { post ->
                 val direction = FeedFragmentDirections.toPostFragment(post)
-                findNavController().navigate(direction,)
+                findNavController().navigate(direction)
             }
         }
 
         viewModel.videoPlayEvent.observe(this) {
-            it.getContentIfNotHandled()
-                .let { url ->
-                    url ?: return@let
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-                }
+            it.getContentIfNotHandled()?.let { url ->
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
+        }
+
+        viewModel.postFragmentRemoveEvent.observe(this) {
+            it.getContentIfNotHandled()?.let { postID ->
+                viewModel.onRemoveClick(postID)
+            }
         }
     }
 
@@ -70,16 +74,17 @@ class FeedFragment : Fragment() {
             binding.recyclerView.adapter = adapter
 
             viewModel.data.observe(viewLifecycleOwner) { posts ->
-                val isNewPost = posts.size > adapter.itemCount
-                adapter.submitList(posts) {
-                    if (isNewPost) binding.recyclerView.run {
-                        scrollToPosition(top)
-                    }
-                }
+                adapter.submitList(posts)
             }
 
             binding.fab.setOnClickListener {
                 viewModel.onAddButtonClick()
+            }
+
+            viewModel.scrollOnNewPostEvent.observe(viewLifecycleOwner) {
+                it.runIfNotHandled {
+                    binding.recyclerView.run { scrollToPosition(top) }
+                }
             }
         }.root
 }
