@@ -1,7 +1,9 @@
 package ru.netology.nmedia.objects
 
+import kotlinx.serialization.Serializable
 import ru.netology.nmedia.R
 
+@Serializable
 data class Post(
     val id: Long = DEFAULT_POST_ID,
     val author: String = "Who cares?",

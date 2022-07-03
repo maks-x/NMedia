@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.lifecycle.MutableLiveData
+import androidx.core.content.edit
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
@@ -54,7 +54,17 @@ internal fun Context.formatCountOf(property: Int): String {
     }
 }
 
-internal fun MutableLiveData<List<Post>>.fillWithSample() = apply {
+internal fun samplePosts(context: Context): List<Post> {
+
+    val prefs = context.getSharedPreferences(COMMON_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+
+    if (!prefs.getBoolean(FIRST_START_PREFS_KEY, true))
+        return emptyList()
+
+    prefs.edit {
+        putBoolean(FIRST_START_PREFS_KEY, false)
+    }
+
     val startCount = 100
     var newPostID = 1L
 
@@ -74,7 +84,7 @@ internal fun MutableLiveData<List<Post>>.fillWithSample() = apply {
 
     val newsHeaderPattern = "Новость №%s\n"
 
-    this.value = List(startCount) { index ->
+    return List(startCount) { index ->
         val postID = newPostID
         newPostID++
         Post(
@@ -123,6 +133,13 @@ internal fun Bundle.withPostContent(post: Post): Bundle {
 // region APP_CONSTANTS
 const val POST_CONTENT_TEXT = "postContentText"
 const val POST_CONTENT_VIDEO_LINK = "postContentVideoLink"
+
+const val COMMON_SHARED_PREFS_KEY = "commonPrefs"
+const val POSTS_PREFS_KEY = "posts"
+const val FIRST_START_PREFS_KEY = "firstStart"
+const val NEXT_POST_ID_PREFS_KEY = "nextID"
+
+const val POSTS_FILE_NAME = "posts.json"
 
 
 // endregion APP_CONSTANTS
