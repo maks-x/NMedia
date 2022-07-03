@@ -8,7 +8,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import ru.netology.nmedia.databinding.FragmentPostBinding
 import ru.netology.nmedia.utils.fillWithPost
-import ru.netology.nmedia.utils.setBasicListeners
 import ru.netology.nmedia.viewModel.PostViewModel
 
 class PostFragment : Fragment() {
@@ -26,7 +25,6 @@ class PostFragment : Fragment() {
                 val post = navArgs<PostFragmentArgs>().value.currentPost
                     .also {
                         fillWithPost(it)
-                        setBasicListeners(it, viewModel)
                     }
 
                 viewModel.data.observe(viewLifecycleOwner) { posts ->
