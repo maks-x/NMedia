@@ -76,7 +76,7 @@ class FilePostRepository(
 
     override fun share(post: Post) {
         posts = posts.map {
-            if (it != post) it
+            if (it.id != post.id) it
             else it.copy(
                 shareCount = it.shareCount + 1
             )
