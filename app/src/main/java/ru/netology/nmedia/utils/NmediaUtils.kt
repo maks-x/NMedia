@@ -3,12 +3,10 @@ package ru.netology.nmedia.utils
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.PopupMenu
 import androidx.core.content.edit
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
-import ru.netology.nmedia.viewModel.PostInteractionListener
 
 // region KEYBOARD
 
@@ -26,7 +24,7 @@ internal fun View.showKeyboard() {
 
 //    а этот франкенштейн вообще не даёт клавиатуре пропасть
 //    в режиме alwaysOnDisplay на моем Android 10
-    //    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, /* flags = */0)
+        //    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, /* flags = */0)
 }
 
 // endregion KEYBOARD
@@ -113,50 +111,25 @@ internal fun samplePosts(context: Context): List<Post> {
     }.reversed()
 }
 
-internal fun PostBinding.fillWithPost(post: Post) {
-    avatar.setImageResource(post.avatarID)
-    author.text = post.author
-    content.text = post.text
-    published.text = post.published
-    likes.isChecked = post.likedByMe
-    videoViewGroup.visibility =
-        if (post.videoLink.isNullOrBlank()) View.GONE
-        else View.VISIBLE
+internal fun PostBinding.fillWithPost(post: Post?) {
+    post?.let {
+        avatar.setImageResource(post.avatarID)
+        author.text = post.author
+        content.text = post.text
+        published.text = post.published
+        likes.isChecked = post.likedByMe
+        videoViewGroup.visibility =
+            if (post.videoLink.isNullOrBlank()) View.GONE
+            else View.VISIBLE
 
 
-    with(root.context) {
-        likes.text = formatCountOf(post.likesCount)
-        comments.text = formatCountOf(post.commentsCount)
-        share.text = formatCountOf(post.shareCount)
-        views.text = formatCountOf(post.viewsCount)
-    }
-}
-
-
-internal fun PostBinding.setBasicListeners(post: Post, listener: PostInteractionListener) {
-    val postPopupMenu = PopupMenu(root.context, postsOptions).apply {
-        inflate(R.menu.options_post)
-        setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.popupRemove -> {
-                    listener.onRemoveClick(post.id)
-                    true
-                }
-                R.id.popupEdit -> {
-                    listener.onEditClick(post)
-                    true
-                }
-                else -> false
-            }
+        with(root.context) {
+            likes.text = formatCountOf(post.likesCount)
+            comments.text = formatCountOf(post.commentsCount)
+            share.text = formatCountOf(post.shareCount)
+            views.text = formatCountOf(post.viewsCount)
         }
     }
-    likes.setOnClickListener { listener.onLikeClick(post.id) }
-    share.setOnClickListener { listener.onShareClick(post) }
-    postsOptions.setOnClickListener { postPopupMenu.show() }
-    videoPlay.setOnClickListener {
-        post.videoLink?.let { listener.onVideoLinkClick(it) }
-    }
-    videoPreview.setOnClickListener { videoPlay.performClick() }
 }
 
 // region APP_CONSTANTS
