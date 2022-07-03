@@ -41,7 +41,7 @@ class PostsFeedActivity : AppCompatActivity(R.layout.posts_feed) {
             }
         }
 
-        postsFeedBinding.cancelEditMode.setOnClickListener {
+        postsFeedBinding.cancelEditButton.setOnClickListener {
             viewModel.onCancelEditingClick()
             postsFeedBinding.clearInputArea()
         }

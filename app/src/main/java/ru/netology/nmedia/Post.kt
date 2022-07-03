@@ -4,7 +4,7 @@ data class Post(
     val id: Long,
     val author: String,
     val published: String,
-    val avatarID: Int = R.drawable.ic_post_add_48,
+    val avatarID: Int = R.drawable.ic_face_48dp,
     val content: String,
     val likedByMe: Boolean = false,
     val likesCount: Int = 0,
