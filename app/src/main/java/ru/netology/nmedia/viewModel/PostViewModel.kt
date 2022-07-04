@@ -25,6 +25,8 @@ class PostViewModel(
 
     val postFragmentRemoveEvent = MutableLiveData<SingleEvent<Long>>()
     val postFragmentEditEvent = MutableLiveData<SingleEvent<Post>>()
+    val postFragmentShareEvent = MutableLiveData<SingleEvent<String>>()
+
 
     val scrollOnNewPostEvent = MutableLiveData<SingleEvent<Unit>>()
 
@@ -46,6 +48,11 @@ class PostViewModel(
 
     fun onPostFragmentEdit(post: Post) {
         postFragmentEditEvent.value = SingleEvent(post)
+    }
+
+    fun onPostFragmentShare(post: Post) {
+        postFragmentShareEvent.value = SingleEvent(post.toString())
+        repository.share(post)
     }
 
     // region PostInteractionListener

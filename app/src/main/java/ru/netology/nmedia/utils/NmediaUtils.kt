@@ -1,9 +1,11 @@
 package ru.netology.nmedia.utils
 
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.edit
+import androidx.fragment.app.Fragment
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
@@ -129,6 +131,18 @@ internal fun PostBinding.fillWithPost(post: Post) {
         views.text = formatCountOf(post.viewsCount)
     }
 
+}
+
+internal fun Fragment.sharePostOnIntent(content: String) {
+    val intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, content)
+        type = "text/plain"
+    }
+    val shareIntent = Intent.createChooser(
+        intent, getString(R.string.chooser_share_post)
+    )
+    startActivity(shareIntent)
 }
 
 // region APP_CONSTANTS

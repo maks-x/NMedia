@@ -1,5 +1,6 @@
 package ru.netology.nmedia.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,12 +14,33 @@ import ru.netology.nmedia.databinding.FragmentPostBinding
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
 import ru.netology.nmedia.utils.fillWithPost
+import ru.netology.nmedia.utils.sharePostOnIntent
 import ru.netology.nmedia.viewModel.PostViewModel
 
 class PostFragment : Fragment() {
     private val viewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.postFragmentEditEvent.observe(this) {
+            it.getContentIfNotHandled()?.let { post ->
+                val direction =
+                    PostFragmentDirections.postFragmentToPostContentFragment(post)
+                findNavController().navigate(direction)
+            }
+        }
+
+        viewModel.postFragmentShareEvent.observe(this) {
+            it.getContentIfNotHandled()
+                ?.let { postContent ->
+                    sharePostOnIntent(postContent)
+                }
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,17 +60,7 @@ class PostFragment : Fragment() {
                         posts.first { it.id == post.id }
                     )
                 }
-
-                viewModel.postFragmentEditEvent.observe(viewLifecycleOwner) {
-                    it.getContentIfNotHandled()?.let { post ->
-                        val direction =
-                            PostFragmentDirections.postFragmentToPostContentFragment(post)
-                        findNavController().navigate(direction)
-                    }
-                }
-
             }
-
         }.root
 
     private fun PostBinding.setBasicListeners(post: Post) {
@@ -70,7 +82,7 @@ class PostFragment : Fragment() {
             }
         }
         likes.setOnClickListener { viewModel.onLikeClick(post.id) }
-        share.setOnClickListener { viewModel.onShareClick(post) }
+        share.setOnClickListener { viewModel.onPostFragmentShare(post) }
         postsOptions.setOnClickListener { postPopupMenu.show() }
         videoPlay.setOnClickListener {
             post.videoLink?.let { viewModel.onVideoLinkClick(it) }
