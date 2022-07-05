@@ -39,6 +39,7 @@ class PostContentFragment : Fragment() {
                 post.videoLink?.let { editLink.setText(it) }
 
                 close.setOnClickListener {
+                    it.hideKeyboard()
                     findNavController().popBackStack()
                 }
 

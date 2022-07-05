@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.PostsFeedAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
-import ru.netology.nmedia.utils.sharePostOnIntent
+import ru.netology.nmedia.utils.sharePostWithIntent
 import ru.netology.nmedia.viewModel.PostViewModel
 
 class FeedFragment : Fragment() {
@@ -25,7 +24,7 @@ class FeedFragment : Fragment() {
         viewModel.sharePostContentEvent.observe(this) {
             it.getContentIfNotHandled()
                 ?.let { postContent ->
-                    sharePostOnIntent(postContent)
+                    sharePostWithIntent(postContent)
                 }
         }
 

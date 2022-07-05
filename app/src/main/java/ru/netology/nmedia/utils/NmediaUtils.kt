@@ -133,11 +133,13 @@ internal fun PostBinding.fillWithPost(post: Post) {
 
 }
 
-internal fun Fragment.sharePostOnIntent(content: String) {
+internal fun Fragment.sharePostWithIntent(content: String, intentIdentifier: String? = null) {
     val intent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(Intent.EXTRA_TEXT, content)
         type = "text/plain"
+        intentIdentifier.let { identifier = it }
+
     }
     val shareIntent = Intent.createChooser(
         intent, getString(R.string.chooser_share_post)

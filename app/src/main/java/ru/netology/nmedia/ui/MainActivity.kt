@@ -30,13 +30,21 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val text = it.getStringExtra(Intent.EXTRA_TEXT)
         if (text?.isNotBlank() != true) return
         intent.removeExtra(Intent.EXTRA_TEXT)
+        val postToSend = Post(text = text)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
 
-        val direction = FeedFragmentDirections.toPostContentFragment(Post(text = text))
+        val direction = if (it.identifier == INNER_INTENT_IDENTIFIER) {
+            PostFragmentDirections.postFragmentToPostContentFragment(postToSend)
+        } else FeedFragmentDirections.toPostContentFragment(postToSend)
+
         val navController = navHostFragment.navController
         navController.navigate(direction)
+    }
+
+    companion object {
+        const val INNER_INTENT_IDENTIFIER = "netology"
     }
 
 }

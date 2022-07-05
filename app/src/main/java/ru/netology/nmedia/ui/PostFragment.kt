@@ -1,6 +1,5 @@
 package ru.netology.nmedia.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,8 +12,9 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.FragmentPostBinding
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
+import ru.netology.nmedia.ui.MainActivity.Companion.INNER_INTENT_IDENTIFIER
 import ru.netology.nmedia.utils.fillWithPost
-import ru.netology.nmedia.utils.sharePostOnIntent
+import ru.netology.nmedia.utils.sharePostWithIntent
 import ru.netology.nmedia.viewModel.PostViewModel
 
 class PostFragment : Fragment() {
@@ -36,7 +36,7 @@ class PostFragment : Fragment() {
         viewModel.postFragmentShareEvent.observe(this) {
             it.getContentIfNotHandled()
                 ?.let { postContent ->
-                    sharePostOnIntent(postContent)
+                    sharePostWithIntent(postContent, INNER_INTENT_IDENTIFIER)
                 }
         }
     }
