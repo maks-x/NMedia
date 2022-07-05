@@ -24,18 +24,19 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
 
-    private fun handleIntent(it: Intent) {
-        if (it.action != Intent.ACTION_SEND) return
+    private fun handleIntent(intent: Intent) {
+        if (intent.action != Intent.ACTION_SEND) return
 
-        val text = it.getStringExtra(Intent.EXTRA_TEXT)
+        val text = intent.getStringExtra(Intent.EXTRA_TEXT)
         if (text?.isNotBlank() != true) return
         intent.removeExtra(Intent.EXTRA_TEXT)
+        val identifier = intent.getStringExtra(IDENTIFIER_KEY)
         val postToSend = Post(text = text)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
 
-        val direction = if (it.identifier == INNER_INTENT_IDENTIFIER) {
+        val direction = if (identifier == INNER_INTENT_IDENTIFIER) {
             PostFragmentDirections.postFragmentToPostContentFragment(postToSend)
         } else FeedFragmentDirections.toPostContentFragment(postToSend)
 
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     companion object {
+        const val IDENTIFIER_KEY = "identifierKey"
         const val INNER_INTENT_IDENTIFIER = "netology"
     }
 
