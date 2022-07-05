@@ -12,18 +12,31 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         intent?.let {
-            if (it.action != Intent.ACTION_SEND) return@let
-
-            val text = it.getStringExtra(Intent.EXTRA_TEXT)
-            if (text?.isNotBlank() != true) return@let
-            intent.removeExtra(Intent.EXTRA_TEXT)
-
-            val navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
-
-            val direction = FeedFragmentDirections.toPostContentFragment(Post(text = text))
-            val navController = navHostFragment.navController
-            navController.navigate(direction)
+            handleIntent(it)
         }
     }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let {
+            handleIntent(it)
+        }
+    }
+
+
+    private fun handleIntent(it: Intent) {
+        if (it.action != Intent.ACTION_SEND) return
+
+        val text = it.getStringExtra(Intent.EXTRA_TEXT)
+        if (text?.isNotBlank() != true) return
+        intent.removeExtra(Intent.EXTRA_TEXT)
+
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
+
+        val direction = FeedFragmentDirections.toPostContentFragment(Post(text = text))
+        val navController = navHostFragment.navController
+        navController.navigate(direction)
+    }
+
 }
