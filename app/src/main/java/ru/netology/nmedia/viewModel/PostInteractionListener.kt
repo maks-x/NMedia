@@ -8,5 +8,5 @@ interface PostInteractionListener {
     fun onRemoveClick(postID: Long)
     fun onEditClick(post: Post)
     fun onVideoLinkClick(link: String)
-    fun onPostNavigateAreaClick(post: Post)
+    fun onPostNavigateAreaClick(postID: Long)
 }

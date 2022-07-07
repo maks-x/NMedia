@@ -10,7 +10,6 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
 import ru.netology.nmedia.ui.MainActivity.Companion.IDENTIFIER_KEY
-import ru.netology.nmedia.ui.MainActivity.Companion.INNER_INTENT_IDENTIFIER
 
 // region KEYBOARD
 
@@ -140,7 +139,7 @@ internal fun Fragment.sharePostWithIntent(content: String, intentIdentifier: Str
         action = Intent.ACTION_SEND
         putExtra(Intent.EXTRA_TEXT, content)
         type = "text/plain"
-        //intentIdentifier.let { identifier = it } выдаёт ошибку на  android < 29
+//        intentIdentifier.let { /*identifier*/ = it } выдаёт ошибку на  android < 29
         //пришлось положить строку
         putExtra(IDENTIFIER_KEY, intentIdentifier)
 

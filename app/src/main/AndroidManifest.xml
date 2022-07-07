@@ -12,8 +12,8 @@
 
         <activity
             android:name=".ui.MainActivity"
-            android:launchMode="singleTask"
             android:exported="true"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/navigation_graph" />
 

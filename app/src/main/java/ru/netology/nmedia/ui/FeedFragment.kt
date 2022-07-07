@@ -30,14 +30,15 @@ class FeedFragment : Fragment() {
 
         viewModel.navigateToPostContentActivityEvent.observe(this) {
             it.getContentIfNotHandled()?.let { emptyOrExistingPost ->
-                val direction = FeedFragmentDirections.toPostContentFragment(emptyOrExistingPost)
+                val direction =
+                    FeedFragmentDirections.feedFragmentToPostContentFragment(emptyOrExistingPost)
                 findNavController().navigate(direction)
             }
         }
 
         viewModel.navigateToPostFragmentEvent.observe(this) {
-            it.getContentIfNotHandled()?.let { post ->
-                val direction = FeedFragmentDirections.toPostFragment(post)
+            it.getContentIfNotHandled()?.let { postID ->
+                val direction = FeedFragmentDirections.feedFragmentToPostFragment(postID)
                 findNavController().navigate(direction)
             }
         }

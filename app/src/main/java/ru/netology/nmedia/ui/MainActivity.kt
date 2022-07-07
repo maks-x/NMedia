@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         val direction = if (identifier == INNER_INTENT_IDENTIFIER) {
             PostFragmentDirections.postFragmentToPostContentFragment(postToSend)
-        } else FeedFragmentDirections.toPostContentFragment(postToSend)
+        } else FeedFragmentDirections.feedFragmentToPostContentFragment(postToSend)
 
         val navController = navHostFragment.navController
         navController.navigate(direction)

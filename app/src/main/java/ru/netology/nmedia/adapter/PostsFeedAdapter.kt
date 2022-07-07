@@ -64,7 +64,7 @@ internal class PostsFeedAdapter(
                     post.videoLink?.let { listener.onVideoLinkClick(it) }
                 }
                 videoPreview.setOnClickListener { videoPlay.performClick() }
-                postNavigateArea.setOnClickListener { listener.onPostNavigateAreaClick(post) }
+                postNavigateArea.setOnClickListener { listener.onPostNavigateAreaClick(post.id) }
             }
         }
 

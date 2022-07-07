@@ -17,7 +17,7 @@ class PostViewModel(
 
     val navigateToPostContentActivityEvent = MutableLiveData<SingleEvent<Post>>()
 
-    val navigateToPostFragmentEvent = MutableLiveData<SingleEvent<Post>>()
+    val navigateToPostFragmentEvent = MutableLiveData<SingleEvent<Long>>()
 
     val sharePostContentEvent = MutableLiveData<SingleEvent<String>>()
 
@@ -72,8 +72,8 @@ class PostViewModel(
         videoPlayEvent.value = SingleEvent(link)
     }
 
-    override fun onPostNavigateAreaClick(post: Post) {
-        navigateToPostFragmentEvent.value = SingleEvent(post)
+    override fun onPostNavigateAreaClick(postID: Long) {
+        navigateToPostFragmentEvent.value = SingleEvent(postID)
     }
 
 

@@ -49,45 +49,43 @@ class PostFragment : Fragment() {
     ) = FragmentPostBinding.inflate(layoutInflater, container, false)
         .also { binding ->
             with(binding.post) {
-                val post = navArgs<PostFragmentArgs>().value.currentPost
-                    .also {
-                        fillWithPost(it)
-                        setBasicListeners(it)
-                    }
+
+                val currentPostID = navArgs<PostFragmentArgs>().value.currentPostID
+
+                lateinit var post: Post
 
                 viewModel.data.observe(viewLifecycleOwner) { posts ->
-                    fillWithPost(
-                        posts.first { it.id == post.id }
-                    )
+                    post = posts.first { it.id == currentPostID }
+                    fillWithPost(post)
                 }
+
+                val postPopupMenu by lazy {
+                    PopupMenu(root.context, postsOptions).apply {
+                        inflate(R.menu.options_post)
+                        setOnMenuItemClickListener { item ->
+                            when (item.itemId) {
+                                R.id.popupRemove -> {
+                                    viewModel.onPostFragmentRemove(post.id)
+                                    findNavController().popBackStack()
+                                    true
+                                }
+                                R.id.popupEdit -> {
+                                    viewModel.onPostFragmentEdit(post)
+                                    true
+                                }
+                                else -> false
+                            }
+                        }
+                    }
+                }
+
+                likes.setOnClickListener { viewModel.onLikeClick(post.id) }
+                share.setOnClickListener { viewModel.onPostFragmentShare(post) }
+                postsOptions.setOnClickListener { postPopupMenu.show() }
+                videoPlay.setOnClickListener {
+                    post.videoLink?.let { viewModel.onVideoLinkClick(it) }
+                }
+                videoPreview.setOnClickListener { videoPlay.performClick() }
             }
         }.root
-
-    private fun PostBinding.setBasicListeners(post: Post) {
-        val postPopupMenu = PopupMenu(root.context, postsOptions).apply {
-            inflate(R.menu.options_post)
-            setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.popupRemove -> {
-                        viewModel.onPostFragmentRemove(post.id)
-                        findNavController().popBackStack()
-                        true
-                    }
-                    R.id.popupEdit -> {
-                        viewModel.onPostFragmentEdit(post)
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }
-        likes.setOnClickListener { viewModel.onLikeClick(post.id) }
-        share.setOnClickListener { viewModel.onPostFragmentShare(post) }
-        postsOptions.setOnClickListener { postPopupMenu.show() }
-        videoPlay.setOnClickListener {
-            post.videoLink?.let { viewModel.onVideoLinkClick(it) }
-        }
-        videoPreview.setOnClickListener { videoPlay.performClick() }
-    }
-
 }

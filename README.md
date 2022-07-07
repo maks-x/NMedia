@@ -44,7 +44,7 @@
 
 -> ***FIXED***
 > В манифесте необходимо прописать для MainActivity [android:launchMode="singleTask"] и переопределить для активити onNewIntent
-> *  спасибо *Артёму Мостяеву)*
+> * спасибо *Артёму Мостяеву)*
 
 Также при обработке Intent.Action.SEND, если не удалить текст из интента, легко поймать
 IllegalArgumentException при перевороте экрана в [PostContentFragment] со следующим логом:
