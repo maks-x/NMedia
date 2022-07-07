@@ -23,4 +23,7 @@
     <string name="edit_post_title">Редактировать пост</string>
     <string name="play_video">Играть видео</string>
     <string name="edit_link_hint">Вы можете прикрепить ссылку на видео</string>
+    <string name="close">Закрыть</string>
+    <string name="to_text">К тексту</string>
+    <string name="to_link">К ссылке</string>
 </resources>

@@ -37,4 +37,11 @@
     <style name="Widget.AppTheme.PlayVideoButtonStyle" parent="Widget.MaterialComponents.TimePicker.ImageButton">
 
     </style>
+
+    <style name="Widget.AppTheme.PostContentButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:insetLeft">@dimen/common_spacing</item>
+        <item name="android:insetRight">@dimen/common_spacing</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:height">@dimen/bottom_app_bar_min_height</item>
+    </style>
 </resources>

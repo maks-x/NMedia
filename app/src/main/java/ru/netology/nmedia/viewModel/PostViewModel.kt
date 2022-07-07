@@ -1,16 +1,12 @@
 package ru.netology.nmedia.viewModel
 
 import android.app.Application
-import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.objects.Post
 import ru.netology.nmedia.repository.FilePostRepository
 import ru.netology.nmedia.repository.PostRepository
-import ru.netology.nmedia.utils.POST_CONTENT_TEXT
-import ru.netology.nmedia.utils.POST_CONTENT_VIDEO_LINK
 import ru.netology.nmedia.utils.SingleEvent
-import ru.netology.nmedia.utils.withPostContent
 
 class PostViewModel(
     application: Application
@@ -19,56 +15,67 @@ class PostViewModel(
     private val repository: PostRepository = FilePostRepository(application)
     val data by repository::data
 
-    private var currentPost: Post? = null
+    val navigateToPostContentActivityEvent = MutableLiveData<SingleEvent<Post>>()
 
-    val navigateToPostContentActivityEvent = MutableLiveData<SingleEvent<Bundle>>()
+    val navigateToPostFragmentEvent = MutableLiveData<SingleEvent<Long>>()
 
     val sharePostContentEvent = MutableLiveData<SingleEvent<String>>()
 
     val videoPlayEvent = MutableLiveData<SingleEvent<String>>()
 
-    fun savePost(content: Bundle) {
-        if (content.isEmpty) return
-        val text = content.getString(POST_CONTENT_TEXT) ?: return
-        val videoLink = content.getString(POST_CONTENT_VIDEO_LINK)
+    val postFragmentRemoveEvent = MutableLiveData<SingleEvent<Long>>()
+    val postFragmentEditEvent = MutableLiveData<SingleEvent<Post>>()
+    val postFragmentShareEvent = MutableLiveData<SingleEvent<String>>()
 
-        val newOrEditedPost =
-            currentPost?.copy(
-                text = text,
-                videoLink = videoLink
-            ) ?: Post(
-                text = text,
-                videoLink = videoLink
-            )
+
+    val scrollOnNewPostEvent = MutableLiveData<SingleEvent<Unit>>()
+
+    fun scrollOnTop() {
+        scrollOnNewPostEvent.value = SingleEvent()
+    }
+
+    fun savePost(newOrEditedPost: Post) {
         repository.save(newOrEditedPost)
-
-        currentPost = null
     }
 
     fun onAddButtonClick() {
-        currentPost = null
-        navigateToPostContentActivityEvent.value = SingleEvent(Bundle())
+        navigateToPostContentActivityEvent.value = SingleEvent(Post())
+    }
+
+    fun onPostFragmentRemove(postID: Long) {
+        postFragmentRemoveEvent.value = SingleEvent(postID)
+    }
+
+    fun onPostFragmentEdit(post: Post) {
+        postFragmentEditEvent.value = SingleEvent(post)
+    }
+
+    fun onPostFragmentShare(post: Post) {
+        postFragmentShareEvent.value = SingleEvent(post.toString())
+        repository.share(post)
     }
 
     // region PostInteractionListener
 
     override fun onLikeClick(postID: Long) = repository.like(postID)
     override fun onShareClick(post: Post) {
-        sharePostContentEvent.value = SingleEvent(post.text)
+        sharePostContentEvent.value = SingleEvent(post.toString())
         repository.share(post)
     }
 
     override fun onRemoveClick(postID: Long) = repository.remove(postID)
     override fun onEditClick(post: Post) {
-        currentPost = post
-        navigateToPostContentActivityEvent.value = SingleEvent(
-            Bundle().withPostContent(post)
-        )
+        navigateToPostContentActivityEvent.value = SingleEvent(post)
     }
 
     override fun onVideoLinkClick(link: String) {
-        videoPlayEvent.value = SingleEvent((link))
+        videoPlayEvent.value = SingleEvent(link)
     }
+
+    override fun onPostNavigateAreaClick(postID: Long) {
+        navigateToPostFragmentEvent.value = SingleEvent(postID)
+    }
+
 
     // endregion PostInteractionListener
 }

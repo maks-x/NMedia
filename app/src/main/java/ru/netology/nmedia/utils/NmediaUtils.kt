@@ -1,25 +1,36 @@
 package ru.netology.nmedia.utils
 
-import android.app.Activity
 import android.content.Context
-import android.os.Bundle
+import android.content.Intent
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.edit
+import androidx.fragment.app.Fragment
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.objects.Post
+import ru.netology.nmedia.ui.MainActivity.Companion.IDENTIFIER_KEY
+
+// region KEYBOARD
+
+private val View.inputMethodManager
+    get() = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
 internal fun View.hideKeyboard() {
-    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(windowToken, /* flags = */0)
+    inputMethodManager.hideSoftInputFromWindow(windowToken, /* flags = */0)
 }
 
-//иначе клавиатура не подтягивается после requestFocus(), есть ли другой способ?
-internal fun Activity.showKeyboard() {
-    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+// клавиатура не подтягивается
+// showSoftInput замылил... бестолку... Как сделать это правильно?
+internal fun View.showKeyboard() {
+    inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+
+//    а этот франкенштейн вообще не даёт клавиатуре пропасть
+//    в режиме alwaysOnDisplay на моем Android 10
+    //    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, /* flags = */0)
 }
+
+// endregion KEYBOARD
 
 internal fun <T> List<T>.repeatIfOutOfBound(requiredIndex: Int) =
     this[requiredIndex % size]
@@ -103,39 +114,45 @@ internal fun samplePosts(context: Context): List<Post> {
     }.reversed()
 }
 
-internal fun PostBinding.fillWithPost(post: Post?) {
-    post?.let {
-        avatar.setImageResource(post.avatarID)
-        author.text = post.author
-        content.text = post.text
-        published.text = post.published
-        likes.isChecked = post.likedByMe
-        videoViewGroup.visibility =
-            if (post.videoLink.isNullOrBlank()) View.GONE
-            else View.VISIBLE
+internal fun PostBinding.fillWithPost(post: Post) {
+    avatar.setImageResource(post.avatarID)
+    author.text = post.author
+    content.text = post.text
+    published.text = post.published
+    likes.isChecked = post.likedByMe
+    videoViewGroup.visibility =
+        if (post.videoLink.isNullOrBlank()) View.GONE
+        else View.VISIBLE
 
 
-        with(root.context) {
-            likes.text = formatCountOf(post.likesCount)
-            comments.text = formatCountOf(post.commentsCount)
-            share.text = formatCountOf(post.shareCount)
-            views.text = formatCountOf(post.viewsCount)
-        }
+    with(root.context) {
+        likes.text = formatCountOf(post.likesCount)
+        comments.text = formatCountOf(post.commentsCount)
+        share.text = formatCountOf(post.shareCount)
+        views.text = formatCountOf(post.viewsCount)
     }
+
 }
 
-internal fun Bundle.withPostContent(post: Post): Bundle {
-    putString(POST_CONTENT_TEXT, post.text)
-    putString(POST_CONTENT_VIDEO_LINK, post.videoLink)
-    return this
+internal fun Fragment.sharePostWithIntent(content: String, intentIdentifier: String? = null) {
+    val intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, content)
+        type = "text/plain"
+//        intentIdentifier.let { /*identifier*/ = it } выдаёт ошибку на  android < 29
+        //пришлось положить строку
+        putExtra(IDENTIFIER_KEY, intentIdentifier)
+
+    }
+    val shareIntent = Intent.createChooser(
+        intent, getString(R.string.chooser_share_post)
+    )
+    startActivity(shareIntent)
 }
 
 // region APP_CONSTANTS
-const val POST_CONTENT_TEXT = "postContentText"
-const val POST_CONTENT_VIDEO_LINK = "postContentVideoLink"
 
 const val COMMON_SHARED_PREFS_KEY = "commonPrefs"
-const val POSTS_PREFS_KEY = "posts"
 const val FIRST_START_PREFS_KEY = "firstStart"
 const val NEXT_POST_ID_PREFS_KEY = "nextID"
 
