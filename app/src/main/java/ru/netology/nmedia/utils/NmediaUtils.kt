@@ -8,6 +8,8 @@ import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
+import ru.netology.nmedia.db.PostDao
+import ru.netology.nmedia.db.PostDaoImpl
 import ru.netology.nmedia.objects.Post
 import ru.netology.nmedia.ui.MainActivity.Companion.IDENTIFIER_KEY
 
@@ -65,7 +67,7 @@ internal fun Context.formatCountOf(property: Int): String {
     }
 }
 
-internal fun samplePosts(context: Context): List<Post> {
+internal fun samplePosts(context: Context, dao: PostDao? = null): List<Post> {
 
     val prefs = context.getSharedPreferences(COMMON_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
 
@@ -111,7 +113,7 @@ internal fun samplePosts(context: Context): List<Post> {
             viewsCount = 2000000000,
             shareCount = 2000000000
         )
-    }.reversed()
+    }.reversed().also { dao?.saveAll(it) }
 }
 
 internal fun PostBinding.fillWithPost(post: Post) {
