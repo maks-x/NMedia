@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.objects.Post
-import ru.netology.nmedia.repository.FilePostRepository
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.SQLiteRepository
 import ru.netology.nmedia.utils.SingleEvent
@@ -22,6 +21,9 @@ class PostViewModel(
     )
     val data by repository::data
 
+    var postDraft by repository::postDraft
+        private set
+
     val navigateToPostContentActivityEvent = MutableLiveData<SingleEvent<Post>>()
 
     val navigateToPostFragmentEvent = MutableLiveData<SingleEvent<Long>>()
@@ -36,6 +38,10 @@ class PostViewModel(
 
 
     val scrollOnNewPostEvent = MutableLiveData<SingleEvent<Unit>>()
+
+    fun setDraft(draft: String?) {
+        postDraft = draft
+    }
 
     fun scrollOnTop() {
         scrollOnNewPostEvent.value = SingleEvent()

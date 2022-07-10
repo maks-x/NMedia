@@ -13,6 +13,8 @@ class SQLiteRepository(
 
     override val data = MutableLiveData<List<Post>>()
 
+    override var postDraft by dao::draft
+
     private val posts
         get() = checkNotNull(data.value) {
             "Data value should not be null"

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.db.PostDao
-import ru.netology.nmedia.db.PostDaoImpl
 import ru.netology.nmedia.objects.Post
 import ru.netology.nmedia.ui.MainActivity.Companion.IDENTIFIER_KEY
 

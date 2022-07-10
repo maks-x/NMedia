@@ -2,11 +2,34 @@ package ru.netology.nmedia.db
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
+import androidx.core.database.getStringOrNull
 import ru.netology.nmedia.objects.Post
 
 class PostDaoImpl(
     private val db: SQLiteDatabase
 ) : PostDao {
+
+    override var draft: String?
+        get() {
+            return db.query(
+                PostsTable.DRAFT_TABLE_NAME,
+                arrayOf(PostsTable.DRAFT_TEXT_COLUMN_NAME),
+                null, null, null, null, null
+            ).use { cursor ->
+                cursor.moveToNext()
+                cursor.getStringOrNull(0)
+            }
+        }
+        set(value) {
+            db.replace(
+                PostsTable.DRAFT_TABLE_NAME,
+                null,
+                ContentValues().apply {
+                    put(PostsTable.DRAFT_TEXT_COLUMN_NAME, value)
+                }
+            )
+        }
+
     override fun getAll() =
         db.query(
             PostsTable.NAME,

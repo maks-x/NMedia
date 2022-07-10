@@ -4,6 +4,11 @@ object PostsTable {
 
     const val NAME = "NMediaPostsTable"
 
+    const val DRAFT_TABLE_NAME = "draftTable"
+    const val DRAFT_PRIMKEY_COLUMN_NAME = "draftKey"
+    const val DRAFT_TEXT_COLUMN_NAME = "draftText"
+    const val DRAFT_PRIMARY_KEY = "draft"
+
     val DDL = """
         CREATE TABLE $NAME (
             ${Column.ID.columnName} INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -17,7 +22,18 @@ object PostsTable {
             ${Column.COMMENTS_COUNT.columnName} INTEGER NOT NULL DEFAULT 0,
             ${Column.SHARE_COUNT.columnName} INTEGER NOT NULL DEFAULT 0,
             ${Column.VIEWS_COUNT.columnName} INTEGER NOT NULL DEFAULT 0
-        );
+        )
+    """.trimIndent()
+
+    val ddlForDraft = """
+        CREATE TABLE $DRAFT_TABLE_NAME (
+            $DRAFT_PRIMKEY_COLUMN_NAME TEXT NOT NULL DEFAULT $DRAFT_PRIMARY_KEY PRIMARY KEY,
+            $DRAFT_TEXT_COLUMN_NAME TEXT DEFAULT NULL
+        )        
+    """.trimIndent()
+
+    val defaultDraftDDL = """
+        INSERT INTO $DRAFT_TABLE_NAME DEFAULT VALUES
     """.trimIndent()
 
     val ALL_COLUMNS_NAMES = Column.values().map {

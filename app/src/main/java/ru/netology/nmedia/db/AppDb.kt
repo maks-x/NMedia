@@ -13,7 +13,13 @@ class AppDb private constructor(db: SQLiteDatabase) {
         fun getInstance(context: Context): AppDb {
             return instance ?: synchronized(this) {
                 instance ?: AppDb(
-                    buildDatabase(context, arrayOf(PostsTable.DDL))
+                    buildDatabase(
+                        context, arrayOf(
+                            PostsTable.DDL,
+                            PostsTable.ddlForDraft,
+                            PostsTable.defaultDraftDDL
+                        )
+                    )
                 ).also { instance = it }
             }
         }
