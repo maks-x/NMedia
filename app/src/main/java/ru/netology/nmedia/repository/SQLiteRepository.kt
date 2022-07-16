@@ -1,75 +1,45 @@
 package ru.netology.nmedia.repository
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import ru.netology.nmedia.db.PostDao
+import ru.netology.nmedia.db.toPost
+import ru.netology.nmedia.db.toPostEntity
 import ru.netology.nmedia.objects.Post
-import ru.netology.nmedia.utils.samplePosts
+import ru.netology.nmedia.utils.insertSamplePosts
 
 class SQLiteRepository(
     private val dao: PostDao,
-    context: Context
+    contextForSample: Context
 ) : PostRepository {
 
-    override val data = MutableLiveData<List<Post>>()
+    override val data = dao.getAll().map { postEntities ->
+        postEntities.map { it.toPost() }
+    }
 
-    override var postDraft by dao::draft
-
-    private val posts
-        get() = checkNotNull(data.value) {
-            "Data value should not be null"
-        }
+    override var postDraft: String?
+        get() = dao.getTextDraft()
+        set(value) = dao.setTextDraft(value)
 
     init {
-        data.value = samplePosts(context, dao) + dao.getAll()
+        insertSamplePosts(contextForSample, dao)
     }
 
-    override fun like(postID: Long) {
-        dao.likeByID(postID)
-        data.value = posts.map { post ->
-            if (post.id != postID) post
-            else {
-                val isLiked = !post.likedByMe
-                val correction = if (isLiked) 1 else -1
-                post.copy(
-                    likedByMe = isLiked,
-                    likesCount = post.likesCount + correction
-                )
-            }
-        }
-    }
-
-    override fun share(post: Post) {
-        dao.shareByID(post.id)
-        data.value = posts.map {
-            if (it.id != post.id) it
-            else it.copy(
-                shareCount = it.shareCount + 1
-            )
+    override fun save(post: Post) {
+        post.toPostEntity().let {
+            if (post.id == 0L) dao.insert(it) else dao.updateContentByID(it.id, it.text)
         }
     }
 
     override fun remove(postID: Long) {
         dao.removeByID(postID)
-        data.value = posts.filterNot { it.id == postID }
     }
 
-    override fun save(post: Post) {
-        val savedPost = dao.save(post)
-        when (post.id) {
-            Post.DEFAULT_POST_ID -> addNewPost(savedPost)
-            else -> updatePost(savedPost)
-        }
+    override fun like(postID: Long) {
+        dao.likeByID(postID)
     }
 
-    private fun addNewPost(post: Post) {
-        data.value = listOf(post) + posts
+    override fun share(post: Post) {
+        dao.shareByID(post.id)
     }
-
-    private fun updatePost(post: Post) {
-        data.value = posts.map {
-            if (it.id == post.id) post else it
-        }
-    }
-
 }
