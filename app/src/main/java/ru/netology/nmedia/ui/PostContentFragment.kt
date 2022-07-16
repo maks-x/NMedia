@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -23,53 +24,61 @@ class PostContentFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentPostContentBinding.inflate(inflater, container, false)
-        .also { binding ->
-            val post = navArgs<PostContentFragmentArgs>().value.post
+    ): View {
+        val binding = FragmentPostContentBinding.inflate(inflater, container, false)
 
-            with(binding) {
-                makeVisibleAndFocus(TEXT)
-                avatar.setImageResource(post.avatarID)
-                author.text = post.author
-                published.text = post.published
-                with(editText) {
-                    setText(post.text)
-                    showKeyboard()
-                }
-                post.videoLink?.let { editLink.setText(it) }
+        val post = navArgs<PostContentFragmentArgs>().value.post
+        val isEmptyPost = post.text.isBlank()
+        val draft = if (isEmptyPost) viewModel.postDraft else post.text
 
-                close.setOnClickListener {
-                    it.hideKeyboard()
-                    findNavController().popBackStack()
-                }
-
-                toLink.setOnClickListener {
-                    makeVisibleAndFocus(LINK)
-                }
-
-                toText.setOnClickListener {
-                    makeVisibleAndFocus(TEXT)
-                }
-
-                ok.setOnClickListener {
-                    it.hideKeyboard()
-                    if (!editText.text.isNullOrBlank()) {
-                        val text = editText.text.toString()
-                        val link = with(editLink.text) {
-                            if (isNullOrBlank()) null else toString()
-                        }
-
-                        val newOrEditedPost = post.copy(
-                            text = text,
-                            videoLink = link
-                        )
-                        viewModel.savePost(newOrEditedPost)
-                        if (newOrEditedPost.id == DEFAULT_POST_ID) viewModel.scrollOnTop()
-                    }
-                    findNavController().popBackStack()
-                }
+        with(binding) {
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+                if (isEmptyPost) viewModel.setDraft(editText.text.toString())
+                findNavController().navigateUp()
             }
-        }.root
+            makeVisibleAndFocus(TEXT)
+            avatar.setImageResource(post.avatarID)
+            author.text = post.author
+            published.text = post.published
+            with(editText) {
+                setText(draft)
+                showKeyboard()
+            }
+            post.videoLink?.let { editLink.setText(it) }
+
+            close.setOnClickListener {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+
+            toLink.setOnClickListener {
+                makeVisibleAndFocus(LINK)
+            }
+
+            toText.setOnClickListener {
+                makeVisibleAndFocus(TEXT)
+            }
+
+            ok.setOnClickListener {
+                if (isEmptyPost) viewModel.setDraft(null)
+                it.hideKeyboard()
+                if (!editText.text.isNullOrBlank()) {
+                    val text = editText.text.toString()
+                    val link = with(editLink.text) {
+                        if (isNullOrBlank()) null else toString()
+                    }
+
+                    val newOrEditedPost = post.copy(
+                        text = text,
+                        videoLink = link
+                    )
+                    viewModel.savePost(newOrEditedPost)
+                    if (newOrEditedPost.id == DEFAULT_POST_ID) viewModel.scrollOnTop()
+                }
+                findNavController().popBackStack()
+            }
+        }
+        return binding.root
+    }
 
     private companion object {
 
