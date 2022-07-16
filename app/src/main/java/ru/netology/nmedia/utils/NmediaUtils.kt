@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.db.PostDao
+import ru.netology.nmedia.db.toPostEntity
 import ru.netology.nmedia.objects.Post
 import ru.netology.nmedia.ui.MainActivity.Companion.IDENTIFIER_KEY
 
@@ -66,12 +67,12 @@ internal fun Context.formatCountOf(property: Int): String {
     }
 }
 
-internal fun samplePosts(context: Context, dao: PostDao? = null): List<Post> {
+internal fun insertSamplePosts(context: Context, dao: PostDao) {
 
     val prefs = context.getSharedPreferences(COMMON_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
 
     if (!prefs.getBoolean(FIRST_START_PREFS_KEY, true))
-        return emptyList()
+        return
 
     prefs.edit {
         putBoolean(FIRST_START_PREFS_KEY, false)
@@ -96,7 +97,7 @@ internal fun samplePosts(context: Context, dao: PostDao? = null): List<Post> {
 
     val newsHeaderPattern = "Новость №%s\n"
 
-    return List(startCount) { index ->
+    List(startCount) { index ->
         val postID = newPostID
         newPostID++
         Post(
@@ -112,7 +113,7 @@ internal fun samplePosts(context: Context, dao: PostDao? = null): List<Post> {
             viewsCount = 2000000000,
             shareCount = 2000000000
         )
-    }.reversed().also { dao?.saveAll(it) }
+    }.reversed().forEach { dao.insert(it.toPostEntity()) }
 }
 
 internal fun PostBinding.fillWithPost(post: Post) {
@@ -155,9 +156,6 @@ internal fun Fragment.sharePostWithIntent(content: String, intentIdentifier: Str
 
 const val COMMON_SHARED_PREFS_KEY = "commonPrefs"
 const val FIRST_START_PREFS_KEY = "firstStart"
-const val NEXT_POST_ID_PREFS_KEY = "nextID"
-
-const val POSTS_FILE_NAME = "posts.json"
 
 
 // endregion APP_CONSTANTS
