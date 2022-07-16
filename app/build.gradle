@@ -4,7 +4,6 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.0'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs'
-    id 'kotlin-kapt'
 }
 
 android {
@@ -49,7 +48,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     def arch_version = "2.1.0"
-    def lifecycle_version = "2.5.0"
+    def lifecycle_version = "2.4.1"
     def recyclerview_version = "1.2.1"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -65,10 +64,6 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-
-    def room_ver = "2.4.2"
-    implementation "androidx.room:room-runtime:$room_ver"
-    kapt "androidx.room:room-compiler:$room_ver"
 
 
 }

@@ -67,16 +67,17 @@ class FeedFragment : Fragment() {
             binding.recyclerView.adapter = adapter
 
             viewModel.data.observe(viewLifecycleOwner) { posts ->
-                val isNewPost = posts.size > adapter.currentList.size
-                adapter.submitList(posts) {
-                    if (isNewPost) binding.recyclerView.run {
-                        scrollToPosition(top)
-                    }
-                }
+                adapter.submitList(posts)
             }
 
             binding.fab.setOnClickListener {
                 viewModel.onAddButtonClick()
+            }
+
+            viewModel.scrollOnNewPostEvent.observe(viewLifecycleOwner) {
+                it.runIfNotHandled {
+                    binding.recyclerView.run { scrollToPosition(top) }
+                }
             }
         }.root
 }

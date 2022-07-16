@@ -17,7 +17,7 @@ class PostViewModel(
         dao = AppDb.getInstance(
             context = application
         ).postDao,
-        contextForSample = application
+        context = application
     )
     val data by repository::data
 
@@ -36,8 +36,15 @@ class PostViewModel(
     val postFragmentEditEvent = MutableLiveData<SingleEvent<Post>>()
     val postFragmentShareEvent = MutableLiveData<SingleEvent<String>>()
 
+
+    val scrollOnNewPostEvent = MutableLiveData<SingleEvent<Unit>>()
+
     fun setDraft(draft: String?) {
         postDraft = draft
+    }
+
+    fun scrollOnTop() {
+        scrollOnNewPostEvent.value = SingleEvent()
     }
 
     fun savePost(newOrEditedPost: Post) {
