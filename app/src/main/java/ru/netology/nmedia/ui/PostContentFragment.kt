@@ -47,6 +47,7 @@ class PostContentFragment : Fragment() {
             post.videoLink?.let { editLink.setText(it) }
 
             close.setOnClickListener {
+                it.hideKeyboard()
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
 
@@ -72,7 +73,6 @@ class PostContentFragment : Fragment() {
                         videoLink = link
                     )
                     viewModel.savePost(newOrEditedPost)
-                    if (newOrEditedPost.id == DEFAULT_POST_ID) viewModel.scrollOnTop()
                 }
                 findNavController().popBackStack()
             }
